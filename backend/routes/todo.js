@@ -1,7 +1,9 @@
-const express = require('express')
+const express = require('express');
+const authenticate = require('../middlewares/authenticate');
 const router = express.Router();
 
 router.use(express.json())
+router.use(authenticate);
 
 var todos = [
     {
