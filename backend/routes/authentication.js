@@ -18,7 +18,9 @@ router.post('/signup',(req, res)=>{
     newUser.save().then(result=>{
         const hashedPassword = result.password
         console.log('User details saved successfully! ', result)
-        const token = jwt.sign({username, password: hashedPassword}, SECRET_KEY);
+        const token = jwt.sign({username, password: hashedPassword}, SECRET_KEY, {
+            expiresIn: '2h'
+        });
         res.send({token});
     }).catch(err=>{
         console.error('Failed to save user: ', err)
@@ -32,7 +34,9 @@ router.post('/signin', (req, res)=>{
         bcrypt.compare(password, user.password).then(result=>{
             if(result)
             {
-                const token = jwt.sign({username, password: user.password}, SECRET_KEY);
+                const token = jwt.sign({username, password: user.password}, SECRET_KEY, {
+                    expiresIn: '2h'
+                });
                 res.send({token})
             }
             else{
