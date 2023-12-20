@@ -1,35 +1,47 @@
 const express = require('express');
 const authenticate = require('../middlewares/authenticate');
 const router = express.Router();
+const Todo = require('../models/todo')
+const jwt = require('jsonwebtoken');
+const todo = require('../models/todo');
 
 router.use(express.json())
 router.use(authenticate);
 
-var todos = [
-    {
-        "title": "do web dev daily",
-        "description": "Make sure to code daily",
-        "id": 1
-    },
-    {
-        "title": "do web dev daily",
-        "description": "Make sure to code daily",
-        "id": 2
-    },
-    {
-        "title": "do web dev daily",
-        "description": "Make sure to code daily",
-        "id": 3
-    },
-    {
-        "title": "do web dev daily",
-        "description": "Make sure to code daily",
-        "id": 4
-    }
-];
+
+// var todos = [
+//     {
+//         "title": "do web dev daily",
+//         "description": "Make sure to code daily",
+//         "id": 1
+//     },
+//     {
+//         "title": "do web dev daily",
+//         "description": "Make sure to code daily",
+//         "id": 2
+//     },
+//     {
+//         "title": "do web dev daily",
+//         "description": "Make sure to code daily",
+//         "id": 3
+//     },
+//     {
+//         "title": "do web dev daily",
+//         "description": "Make sure to code daily",
+//         "id": 4
+//     }
+// ];
 
 router.get('/todos', (req, res)=>{
-    res.json(todos)
+    const user = req.user
+    console.log(user);
+    Todo.find({userId: user.id}).then(todos=>{
+        console.log(todos)
+        res.json(todos)
+    }).catch(err=>{
+        console.error(err)
+        res.status(404).send({err: err})
+    })
 })
 
 router.post('/todos/',(req, res)=>{

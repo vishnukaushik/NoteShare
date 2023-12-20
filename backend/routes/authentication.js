@@ -18,7 +18,7 @@ router.post('/signup',(req, res)=>{
     newUser.save().then(result=>{
         const hashedPassword = result.password
         console.log('User details saved successfully! ', result)
-        const token = jwt.sign({username, password: hashedPassword}, SECRET_KEY, {
+        const token = jwt.sign({username, password: hashedPassword, id: result._id}, SECRET_KEY, {
             expiresIn: '2h'
         });
         res.send({token});
@@ -31,10 +31,11 @@ router.post('/signup',(req, res)=>{
 router.post('/signin', (req, res)=>{
     const {username, password} = req.body
     User.findOne({username}).then((user)=>{
+        console.log(user)
         bcrypt.compare(password, user.password).then(result=>{
             if(result)
             {
-                const token = jwt.sign({username, password: user.password}, SECRET_KEY, {
+                const token = jwt.sign({username, password: user.password, id: user._id}, SECRET_KEY, {
                     expiresIn: '2h'
                 });
                 res.send({token})
