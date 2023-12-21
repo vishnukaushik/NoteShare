@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 
 const SECRET_KEY = process.env.SECRET_KEY
 const authenticate = (req, res, next)=>{
-    const token = req.header('token').split(' ')[1]
+    const token = req.header('Authorization').split(' ')[1]
     try {
         const {username, password, id} = jwt.verify(token, SECRET_KEY)
         req.user = {username, password, id}

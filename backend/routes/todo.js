@@ -4,6 +4,7 @@ const router = express.Router();
 const Todo = require('../models/todo')
 const jwt = require('jsonwebtoken');
 const todo = require('../models/todo');
+const { default: mongoose } = require('mongoose');
 
 router.use(express.json())
 router.use(authenticate);
@@ -46,49 +47,61 @@ router.get('/todos', (req, res)=>{
 
 router.post('/todos/',(req, res)=>{
     var todo = req.body
-    const id = todos.length+1
-    todo = {...todo, id}
+    const user = req.user
     if(!todo.status)
         todo.status = "not started"
-    todos.push(todo)
-    console.log(todo)
-    res.status(200).json(todo)
-})
+    const newTodo = new Todo({...todo, userId: user.id});
 
-router.get('/todos/:id', (req, res)=>{
-    const id = parseInt(req.params.id)
-    const todo = todos.find(t=>t.id===id)
-    if(todo)
-        res.status(200).json(todo)
-    else
-        res.status(401).send({error: "todo does not exists!"})
-})
-
-router.put('/todos/:id', (req, res)=>{
-    const id = parseInt(req.params.id)
-    const updatedTodo = req.body
-    const todoIndex = todos.findIndex(t=> t.id===id)
-    if(todoIndex>=0)
-    {
-        todos[todoIndex] = updatedTodo
-        console.log(updatedTodo)
-        res.status(200).json(updatedTodo)
-    }
-    else
-        res.status(403).send({error: "Todo not found!"})
+    newTodo.save().then(result=>{
+        console.log('Saved the todo sucessfully: ', result)
+        res.status(200).json(result)
+    }).catch(err=>{
+        res.status(404).send({err})
+    })
     
 })
 
+router.get('/todos/:id', (req, res)=>{
+    const id = req.params.id
+    console.log("id: ", id)
+    Todo.findById({_id: id}).then(todo=>{
+        if(todo){
+            console.log('found todo: ', todo)
+            res.status(200).json(todo);
+        }
+        else{
+            res.status(401).send({err: "todo not found"})
+        }
+    }).catch(err=>{
+        res.status(401).send({err: "todo does not exists!"})
+    })
+})
+
+router.put('/todos/:id', (req, res)=>{
+    const id = req.params.id
+    const updatedTodo = req.body
+
+    Todo.findByIdAndUpdate({_id: id}, updatedTodo,{
+        new: true
+    }).then(todo=>{
+        res.status(200).json(todo)
+    }).catch(err=>{
+        res.status(403).send({error: "Todo not found!"})
+    })
+})
+
 router.delete('/todos/:id', (req, res)=>{
-    const id = parseInt(req.params.id)
-    const todoIndex = todos.findIndex(t => t.id===id)
-    if(todoIndex>=0)
-    {
-        const todo = todos[todoIndex]
-        todos = todos.filter(t => t.id!==id)
-        res.status(200).json(todo);
-    }
-    res.status(402).send({error: "Todo not found"})
+    const id = req.params.id
+    Todo.deleteOne({_id:id}).then(result=>{
+        if(result.acknowledged && result.deletedCount>0){
+            console.log('deleted: ', result)
+            res.status(200).send({message: "deleted the todo"})
+        }else{
+            res.status(404).send({err: "Unable to delete todo"})    
+        }
+    }).catch(err=>{
+        res.status(404).send({err, message: "Unable to find todo"})
+    })
 })
 
 module.exports = router
