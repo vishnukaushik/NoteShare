@@ -34,7 +34,6 @@ dbConnection.on('disconnected', () => {
 console.log('MongoDB disconnected');
 });
 
-// Gracefully close the connection on application termination
 process.on('SIGINT', () => {
 dbConnection.close(() => {
     console.log('MongoDB connection closed');

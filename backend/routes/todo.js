@@ -2,36 +2,10 @@ const express = require('express');
 const authenticate = require('../middlewares/authenticate');
 const router = express.Router();
 const Todo = require('../models/todo')
-const jwt = require('jsonwebtoken');
-const todo = require('../models/todo');
-const { default: mongoose } = require('mongoose');
 
 router.use(express.json())
 router.use(authenticate);
 
-
-// var todos = [
-//     {
-//         "title": "do web dev daily",
-//         "description": "Make sure to code daily",
-//         "id": 1
-//     },
-//     {
-//         "title": "do web dev daily",
-//         "description": "Make sure to code daily",
-//         "id": 2
-//     },
-//     {
-//         "title": "do web dev daily",
-//         "description": "Make sure to code daily",
-//         "id": 3
-//     },
-//     {
-//         "title": "do web dev daily",
-//         "description": "Make sure to code daily",
-//         "id": 4
-//     }
-// ];
 
 router.get('/todos', (req, res)=>{
     const user = req.user
