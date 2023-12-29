@@ -1,13 +1,11 @@
-import './App.css'
+import "./App.css";
+import HomePage from "./pages/HomePage/homePageIndex";
 
 function App() {
-  console.log("inside frontend server")
+  console.log("inside frontend server");
   return (
-    <>
-      <h1>Hello world</h1>
-        
-    </>
-  )
+    <HomePage/>
+  );
 }
 
-export default App
+export default App;
