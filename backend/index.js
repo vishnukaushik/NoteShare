@@ -1,12 +1,15 @@
 require('dotenv').config()
 const express = require('express');
 const app = express();
-const todoRoutes = require('./routes/todo')
-const authRoutes = require('./routes/authentication')
-const mongoose = require('mongoose')
+const cors = require("cors");
+const todoRoutes = require("./routes/todo");
+const authRoutes = require("./routes/authentication");
+const mongoose = require("mongoose");
 
-const DB_PASSWORD=process.env.DB_PASSWORD
-const MONGODB_URI=`mongodb+srv://captaincoder:${DB_PASSWORD}@fullstackcourse.ifidch4.mongodb.net/TodoApp`
+const DB_PASSWORD = process.env.DB_PASSWORD;
+const MONGODB_URI = `mongodb+srv://captaincoder:${DB_PASSWORD}@fullstackcourse.ifidch4.mongodb.net/TodoApp`;
+
+app.use(cors());
 
 app.use((req, res, next)=>{
     console.log(`${req.method} ${req.url}`)
