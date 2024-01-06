@@ -58,8 +58,8 @@ export default function UserLoginForm() {
     <div
       style={{
         padding: "10px",
-        width: "50vw",
-        height: "50vh",
+        width: "50%",
+        height: "auto",
         alignItems: "center",
         display: "flex",
         flexDirection: "column",

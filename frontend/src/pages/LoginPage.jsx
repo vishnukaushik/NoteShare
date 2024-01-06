@@ -3,30 +3,36 @@ import UserLoginForm from "../components/UserLoginForm";
 
 export default function LoginPage() {
   return (
-    <>
-      <Card
-        sx={{
-          width: "auto",
-          height: "auto",
-          padding: "10px",
-          margin: "auto",
+    <Card
+      sx={{
+        width: "100%",
+        height: "50%",
+        padding: "10px",
+        margin: "50px",
+      }}
+    >
+      <CardContent
+        style={{
+          display: "flex",
         }}
       >
-        <CardContent
+        <div
           style={{
-            display: "flex",
+            width: "50%",
           }}
         >
-          <div
+          <img src="../assets/notesLogo.png" width="70%" height="auto" />
+          <h4
             style={{
-              width: "50%",
+              margin: "auto",
+              fontSize: "3rem",
             }}
           >
-            <h4>There will be an image</h4>
-          </div>
-          <UserLoginForm />
-        </CardContent>
-      </Card>
-    </>
+            Notes App
+          </h4>
+        </div>
+        <UserLoginForm />
+      </CardContent>
+    </Card>
   );
 }
