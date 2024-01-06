@@ -11,7 +11,7 @@ const TodosPage = () => {
   const token = localStorage.getItem("token");
   if (!token) return <Unauthorized />;
   return (
-    <div style={{ width: "auto", display: "flex", ...style, height: "100%" }}>
+    <div style={{ width: "100%", display: "flex", ...style, height: "100%", padding: '10px' }}>
       <div style={{ ...style, width: "30%" }}>
         <NotesList />
       </div>
