@@ -6,6 +6,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useState } from "react";
 import axios from "axios";
 import ErrorNotification from "./ErrorNotification";
+import { useNavigate } from "react-router-dom";
 
 const PasswordVisibility = ({ showPassword, handlePasswordVisibility }) => {
   return (
@@ -20,6 +21,7 @@ export default function UserLoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -33,6 +35,7 @@ export default function UserLoginForm() {
         const token = result.data.token;
         localStorage.setItem("token", token);
         console.log(`request sent SUCCESSFULLY: `, result.data.token);
+        navigate("/todos");
       })
       .catch((err) => {
         console.error(`request sent but FAILED: ${err}`);
@@ -131,7 +134,7 @@ export default function UserLoginForm() {
               size="small"
               onClick={handleForgotPassword}
               style={{
-                fontSize: "0.7rem",
+                fontSize: "12px",
               }}
             >
               forgot password?
@@ -142,6 +145,7 @@ export default function UserLoginForm() {
               sx={{
                 alignSelf: "flex-end",
                 width: "auto",
+                fontSize: "12px",
               }}
             >
               Login

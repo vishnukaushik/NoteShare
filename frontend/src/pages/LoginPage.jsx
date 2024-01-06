@@ -1,25 +1,25 @@
 import { Card, CardContent } from "@mui/material";
-import UserLoginForm from "../../components/UserLoginForm";
+import UserLoginForm from "../components/UserLoginForm";
 
-export default function HomePage() {
+export default function LoginPage() {
   return (
     <>
       <Card
         sx={{
-          width: "60vw",
-          height: "60vh",
+          width: "auto",
+          height: "auto",
           padding: "10px",
+          margin: "auto",
         }}
       >
         <CardContent
           style={{
             display: "flex",
-            justifyContent: "space-between",
           }}
         >
           <div
             style={{
-              width: "50vw",
+              width: "50%",
             }}
           >
             <h4>There will be an image</h4>
