@@ -3,9 +3,9 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
-export function ButtonAppBar() {
+export function ButtonAppBar({ style }) {
   return (
-    <AppBar position="fixed">
+    <AppBar style={{ ...style }}>
       <Toolbar>
         <div style={{ flexGrow: 1 }}>
           <Typography variant="h6" align="left">
@@ -13,7 +13,7 @@ export function ButtonAppBar() {
           </Typography>
         </div>
         <div>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit">Logout</Button>
         </div>
       </Toolbar>
     </AppBar>
