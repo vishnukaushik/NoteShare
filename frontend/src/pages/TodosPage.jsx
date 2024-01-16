@@ -39,11 +39,10 @@ const TodosPage = () => {
       <Grid container style={{ width: "100%", height: "93%" }}>
         <Grid
           item
-          xs={4}
+          xs={3}
           style={{
             float: "left",
             ...style,
-            width: "30%",
             height: "100%",
             border: "groove blue",
             overflowY: "auto",
@@ -53,11 +52,10 @@ const TodosPage = () => {
         </Grid>
         <Grid
           item
-          xs={8}
+          xs={9}
           style={{
             float: "right",
             ...style,
-            width: "70%",
             height: "100%",
             overflowY: "auto",
           }}

@@ -9,14 +9,24 @@ const NoteItem = ({ note }) => {
   return (
     <ButtonBase
       style={{
-        borderBottom: "solid black",
+        borderBottom: "solid #026cde 1px",
       }}
       sx={{
         display: "block",
         width: "100%",
+        borderRadius: "20px",
+        boxShadow: "0",
       }}
     >
-      <Grid container alignContent="flex-start" flexDirection="column">
+      <Grid
+        container
+        alignContent="flex-start"
+        flexDirection="column"
+        sx={{
+          boxShadow: "0",
+          padding: "2px",
+        }}
+      >
         <Typography
           style={{
             ...style,
@@ -28,7 +38,9 @@ const NoteItem = ({ note }) => {
         >
           {note.title}
         </Typography>
-        <Typography style={{ ...style, padding: "0px 5px", textAlign: "left" }}>
+        <Typography
+          style={{ ...style, padding: "0px 5px", textAlign: "left" }}
+        >
           {note.description}
         </Typography>
       </Grid>
