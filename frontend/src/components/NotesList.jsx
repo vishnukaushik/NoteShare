@@ -4,36 +4,30 @@ const style = {
   color: "black",
 };
 
-const NotesList = ({ notes }) => {
+const NotesList = ({
+  notes,
+  activeId,
+  setActiveId,
+  handleNoteItemClickWrapper,
+}) => {
   return (
     <>
-      <NoteItem note={notes[0]}>This is notes list</NoteItem>
+      {notes.map((note, index) => {
+        return (
+          <NoteItem
+            key={index}
+            index={index}
+            note={note}
+            activeId={activeId}
+            handleNoteItemClick={handleNoteItemClickWrapper(index)}
+          />
+        );
+      })}
+      {/* <NoteItem note={notes[0]} activeId={ activeId}>This is notes list</NoteItem>
       <NoteItem note={notes[1]}>This is notes list</NoteItem>
       <NoteItem note={notes[0]}>This is notes list</NoteItem>
       <NoteItem note={notes[1]}>This is notes list</NoteItem>
-      <NoteItem note={notes[0]}>This is notes list</NoteItem>
-
-      <NoteItem note={notes[0]}>This is notes list</NoteItem>
-      <NoteItem note={notes[1]}>This is notes list</NoteItem>
-      <NoteItem note={notes[0]}>This is notes list</NoteItem>
-      <NoteItem note={notes[1]}>This is notes list</NoteItem>
-      <NoteItem note={notes[0]}>This is notes list</NoteItem>
-
-      <NoteItem note={notes[0]}>This is notes list</NoteItem>
-      <NoteItem note={notes[1]}>This is notes list</NoteItem>
-      <NoteItem note={notes[0]}>This is notes list</NoteItem>
-      <NoteItem note={notes[1]}>This is notes list</NoteItem>
-      <NoteItem note={notes[0]}>This is notes list</NoteItem>
-      <NoteItem note={notes[0]}>This is notes list</NoteItem>
-      <NoteItem note={notes[1]}>This is notes list</NoteItem>
-      <NoteItem note={notes[0]}>This is notes list</NoteItem>
-      <NoteItem note={notes[1]}>This is notes list</NoteItem>
-      <NoteItem note={notes[0]}>This is notes list</NoteItem>
-      <NoteItem note={notes[0]}>This is notes list</NoteItem>
-      <NoteItem note={notes[1]}>This is notes list</NoteItem>
-      <NoteItem note={notes[0]}>This is notes list</NoteItem>
-      <NoteItem note={notes[1]}>This is notes list</NoteItem>
-      <NoteItem note={notes[0]}>This is notes list</NoteItem>
+      <NoteItem note={notes[0]}>This is notes list</NoteItem> */}
     </>
   );
 };

@@ -3,6 +3,7 @@ import { Stack, Grid, Box } from "@mui/material";
 import Note from "../components/Note";
 import NotesList from "../components/NotesList";
 import Unauthorized from "./UnauthorizedPage";
+import { useState } from "react";
 
 const style = {
   // border: "1px solid black",
@@ -31,6 +32,14 @@ const TodosPage = () => {
   console.log("Inside todos page");
   const token = localStorage.getItem("token");
   if (!token) return <Unauthorized />;
+
+  const [activeId, setActiveId] = useState(null);
+  const handleNoteItemClickWrapper = (id) => {
+    return () => {
+      setActiveId(id);
+    };
+  };
+
   return (
     <Box sx={{ width: "100%", height: "100vh" }}>
       <ButtonAppBar
@@ -48,7 +57,12 @@ const TodosPage = () => {
             overflowY: "auto",
           }}
         >
-          <NotesList notes={notes} />
+          <NotesList
+            notes={notes}
+            activeId={activeId}
+            setActiveId={setActiveId}
+            handleNoteItemClickWrapper={handleNoteItemClickWrapper}
+          />
         </Grid>
         <Grid
           item
@@ -60,7 +74,7 @@ const TodosPage = () => {
             overflowY: "auto",
           }}
         >
-          <Note />
+          <Note activeId={activeId} />
         </Grid>
       </Grid>
     </Box>

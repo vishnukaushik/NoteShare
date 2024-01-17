@@ -5,12 +5,17 @@ const style = {
   //   border: "solid black",
 };
 
-const NoteItem = ({ note }) => {
+const NoteItem = ({ note, index, activeId, handleNoteItemClick }) => {
+  // if (activeId === index) {
+  //   console.log("selected index: ", index, note);
+  // }
   return (
     <ButtonBase
+      className={index === activeId ? "selectedNoteItem" : "noteItem"}
       style={{
         borderBottom: "solid #026cde 1px",
       }}
+      onClick={handleNoteItemClick}
       sx={{
         display: "block",
         width: "100%",
@@ -38,9 +43,7 @@ const NoteItem = ({ note }) => {
         >
           {note.title}
         </Typography>
-        <Typography
-          style={{ ...style, padding: "0px 5px", textAlign: "left" }}
-        >
+        <Typography style={{ ...style, padding: "0px 5px", textAlign: "left" }}>
           {note.description}
         </Typography>
       </Grid>
