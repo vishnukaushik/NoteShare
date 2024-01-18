@@ -19,7 +19,7 @@ const NotesList = ({
             index={index}
             note={note}
             activeId={activeId}
-            handleNoteItemClick={handleNoteItemClickWrapper(index)}
+            handleNoteItemClick={handleNoteItemClickWrapper(index, note)}
           />
         );
       })}

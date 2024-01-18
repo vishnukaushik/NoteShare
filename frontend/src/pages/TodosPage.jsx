@@ -28,15 +28,19 @@ const notes = [
   },
 ];
 
+let currentNote = null;
+
 const TodosPage = () => {
   console.log("Inside todos page");
   const token = localStorage.getItem("token");
   if (!token) return <Unauthorized />;
 
   const [activeId, setActiveId] = useState(null);
-  const handleNoteItemClickWrapper = (id) => {
+  console.log("Todos page rendered with current Note: ", currentNote);
+  const handleNoteItemClickWrapper = (id, note) => {
     return () => {
       setActiveId(id);
+      currentNote = note;
     };
   };
 
@@ -74,7 +78,7 @@ const TodosPage = () => {
             overflowY: "auto",
           }}
         >
-          <Note activeId={activeId} />
+          <Note note={currentNote} />
         </Grid>
       </Grid>
     </Box>
