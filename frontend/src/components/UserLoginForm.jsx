@@ -34,7 +34,6 @@ export default function UserLoginForm() {
       .then((result) => {
         const token = result.data.token;
         localStorage.setItem("token", token);
-        console.log(`request sent SUCCESSFULLY: `, result.data.token);
         navigate("/todos");
       })
       .catch((err) => {

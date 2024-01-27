@@ -1,5 +1,4 @@
-import { Link, Navigate } from "react-router-dom";
-import LoginPage from "./LoginPage";
+import { Navigate } from "react-router-dom";
 
 const style = {
   color: "black",
@@ -10,8 +9,7 @@ const Unauthorized = () => {
   return (
     <>
       <h4 style={style}>User Unauthorized</h4>
-      {/* <Link to={"./login"}>Login</Link> */}
-      <Navigate to={"./login"} />
+      <Navigate to={"/login"} />
     </>
   );
 };

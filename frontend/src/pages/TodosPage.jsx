@@ -1,5 +1,5 @@
 import { ButtonAppBar } from "../components/ButtonAppBar";
-import { Stack, Grid, Box } from "@mui/material";
+import { Grid, Box } from "@mui/material";
 import Note from "../components/Note";
 import NotesList from "../components/NotesList";
 import Unauthorized from "./UnauthorizedPage";
@@ -33,10 +33,8 @@ let currentNote = null;
 const TodosPage = () => {
   console.log("Inside todos page");
   const token = localStorage.getItem("token");
-  if (!token) return <Unauthorized />;
-
+  if (token === null) return <Unauthorized />;
   const [activeId, setActiveId] = useState(null);
-  console.log("Todos page rendered with current Note: ", currentNote);
   const handleNoteItemClickWrapper = (id, note) => {
     return () => {
       setActiveId(id);
