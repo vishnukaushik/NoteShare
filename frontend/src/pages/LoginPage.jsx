@@ -7,8 +7,8 @@ export default function LoginPage() {
       sx={{
         width: "100%",
         height: "50%",
-        padding: "10px",
-        margin: "50px",
+        padding: "5%",
+        margin: "5%",
       }}
     >
       <CardContent
@@ -18,14 +18,29 @@ export default function LoginPage() {
       >
         <div
           style={{
+            margin: "auto",
             width: "50%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            // border: "solid black",
           }}
         >
-          <img src="../assets/notesLogo.png" width="70%" height="auto" />
+          <img
+            src="../assets/notesLogo.png"
+            width="50%"
+            height="auto"
+            style={{
+              // border: "solid black",
+              margin: "2%",
+            }}
+          />
           <h4
             style={{
               margin: "auto",
-              fontSize: "3rem",
+              fontSize: "200%",
+              // border: "solid black",
             }}
           >
             Notes App

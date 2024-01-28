@@ -56,7 +56,7 @@ export default function UserLoginForm() {
   return (
     <div
       style={{
-        padding: "10px",
+        padding: "5%",
         width: "50%",
         height: "auto",
         alignItems: "center",
@@ -72,9 +72,9 @@ export default function UserLoginForm() {
           style={{
             display: "flex",
             flexDirection: "column",
-            padding: 10,
-            margin: 30,
-            width: "80%",
+            padding: "5%",
+            margin: "5%",
+            width: "9 0%",
           }}
         >
           <TextField
