@@ -7,6 +7,7 @@ import { useState } from "react";
 import axios from "axios";
 import ErrorNotification from "./ErrorNotification";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_BASE_URL } from "../App";
 
 const PasswordVisibility = ({ showPassword, handlePasswordVisibility }) => {
   return (
@@ -30,11 +31,11 @@ export default function UserLoginForm() {
   const handleUserLogin = (event) => {
     event.preventDefault();
     axios
-      .post("http://localhost:3000/auth/signin", { username, password })
+      .post(`${BACKEND_BASE_URL}/auth/signin`, { username, password })
       .then((result) => {
         const token = result.data.token;
         localStorage.setItem("token", token);
-        navigate("/todos");
+        navigate("/notes");
       })
       .catch((err) => {
         console.error(`request sent but FAILED: ${err}`);

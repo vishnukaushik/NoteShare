@@ -3,38 +3,61 @@ import { Grid, Box } from "@mui/material";
 import Note from "../components/Note";
 import NotesList from "../components/NotesList";
 import Unauthorized from "./UnauthorizedPage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { BACKEND_BASE_URL } from "../App";
 
 const style = {
   // border: "1px solid black",
 };
 
-const notes = [
-  {
-    _id: "659a2a94208919d0c3d60416",
-    userId: "65841d257a52b4e8ec2fbfda",
-    title: "do web dev daily",
-    description: "Make sure to code daily",
-    status: "not started",
-    __v: 0,
-  },
-  {
-    _id: "659a2aa6208919d0c3d60418",
-    userId: "65841d257a52b4e8ec2fbfda",
-    title: "do gym daily",
-    description: "Make sure to gym daily",
-    status: "not started",
-    __v: 0,
-  },
-];
+// const notes = [
+//   {
+//     _id: "659a2a94208919d0c3d60416",
+//     userId: "65841d257a52b4e8ec2fbfda",
+//     title: "do web dev daily",
+//     description: "Make sure to code daily",
+//     status: "not started",
+//     __v: 0,
+//   },
+//   {
+//     _id: "659a2aa6208919d0c3d60418",
+//     userId: "65841d257a52b4e8ec2fbfda",
+//     title: "do gym daily",
+//     description: "Make sure to gym daily",
+//     status: "not started",
+//     __v: 0,
+//   },
+// ];
 
 let currentNote = null;
 
-const TodosPage = () => {
-  console.log("Inside todos page");
+const NotesPage = () => {
+  console.log("Inside notes page");
   const token = localStorage.getItem("token");
   if (token === null) return <Unauthorized />;
+  const [notes, setNotes] = useState([]);
   const [activeId, setActiveId] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    axios
+      .get(`${BACKEND_BASE_URL}/notes`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((data) => {
+        console.log("notes set to: ", data.data);
+        console.log("data: ", data);
+        setNotes(data.data);
+      })
+      .catch((err) => {
+        navigate("/login");
+      });
+  }, []);
+
   const handleNoteItemClickWrapper = (id, note) => {
     return () => {
       setActiveId(id);
@@ -83,4 +106,4 @@ const TodosPage = () => {
   );
 };
 
-export default TodosPage;
+export default NotesPage;

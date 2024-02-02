@@ -2,21 +2,21 @@ require('dotenv').config()
 const express = require('express');
 const app = express();
 const cors = require("cors");
-const todoRoutes = require("./routes/todo");
+const noteRoutes = require("./routes/notes");
 const authRoutes = require("./routes/authentication");
 const mongoose = require("mongoose");
 
 const DB_PASSWORD = process.env.DB_PASSWORD;
-const MONGODB_URI = `mongodb+srv://captaincoder:${DB_PASSWORD}@fullstackcourse.ifidch4.mongodb.net/TodoApp`;
+const MONGODB_URI = `mongodb+srv://captaincoder:${DB_PASSWORD}@fullstackcourse.ifidch4.mongodb.net/NotesApp`;
 
 app.use(cors());
 
-app.use((req, res, next)=>{
-    console.log(`${req.method} ${req.url}`)
-    next()
-})
-app.use('/auth', authRoutes)
-app.use('/', todoRoutes)
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+app.use("/api/auth", authRoutes);
+app.use("/api/", noteRoutes);
 
 const PORT = 3000
 app.listen(PORT, ()=>{

@@ -4,4 +4,7 @@
 
 .ql-toolbar.ql-snow{
     height: auto;
+    align-self: self-start;
+    width: 100%;
+    text-align: start;
 }

@@ -15,7 +15,7 @@ export function ButtonAppBar({ style }) {
       <Toolbar>
         <div style={{ flexGrow: 1 }}>
           <Typography variant="h6" align="left">
-            Todo Application
+            Notes Application
           </Typography>
         </div>
         <div>
