@@ -12,24 +12,6 @@ const style = {
   // border: "1px solid black",
 };
 
-// const notes = [
-//   {
-//     _id: "659a2a94208919d0c3d60416",
-//     userId: "65841d257a52b4e8ec2fbfda",
-//     title: "do web dev daily",
-//     description: "Make sure to code daily",
-//     status: "not started",
-//     __v: 0,
-//   },
-//   {
-//     _id: "659a2aa6208919d0c3d60418",
-//     userId: "65841d257a52b4e8ec2fbfda",
-//     title: "do gym daily",
-//     description: "Make sure to gym daily",
-//     status: "not started",
-//     __v: 0,
-//   },
-// ];
 
 let currentNote = null;
 
@@ -61,7 +43,7 @@ const NotesPage = () => {
   const handleNoteItemClickWrapper = (id, note) => {
     return () => {
       setActiveId(id);
-      currentNote = note;
+      currentNote = note; // check to remove this variable
     };
   };
 
@@ -99,7 +81,7 @@ const NotesPage = () => {
             overflowY: "auto",
           }}
         >
-          <Note note={currentNote} />
+          <Note note={currentNote} activeId={activeId} />
         </Grid>
       </Grid>
     </Box>

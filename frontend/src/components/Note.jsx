@@ -1,22 +1,32 @@
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "../styles/textEditor.css";
+import {
+  EditNote as EditNoteIcon,
+  Share as ShareIcon,
+  Save as SaveIcon,
+} from "@mui/icons-material";
+import { IconButton } from "@mui/material";
 
 const style = {
   color: "black",
 };
-const Note = ({ note, setNote }) => {
-  if (!note) return <h4 style={style}>No note is selected</h4>;
 
+var quill;
+const Note = ({ note, activeId }) => {
+  if (!note) return <h4 style={style}>No note is selected</h4>;
   return (
     <>
-      <Editor note={note} setNote={setNote} />
+      <Editor note={note} activeId={activeId} />
     </>
   );
 };
 
-const Editor = ({ note }) => {
+const Editor = ({ note, activeId }) => {
+  const [editable, setEditable] = useState(false);
+  const [currentNote, setCurrentNote] = useState(note);
+
   var toolbarOptions = [
     ["bold", "italic", "underline", "strike"],
     ["blockquote", "code-block"],
@@ -28,22 +38,41 @@ const Editor = ({ note }) => {
 
     ["clean"],
   ];
+
   const wrapperRef = useCallback(
     (wrapper) => {
       if (!wrapper) return;
       wrapper.innerHTML = "";
       const editor = document.createElement("div");
       wrapper.append(editor);
-      const quill = new Quill(editor, {
+      quill = new Quill(editor, {
         theme: "snow",
         modules: {
           toolbar: toolbarOptions,
         },
       });
       quill.insertText(0, note.description, true);
+      if (!editable) quill.enable(false);
+      quill.on("text-change", (delta, oldDelta, source) => {
+        console.log("text changed in note description");
+        setCurrentNote((thisNote) => {
+          return { ...thisNote, description: delta.ops };
+        });
+      });
     },
     [note]
   );
+  const handleSave = () => {
+    setEditable(false);
+    if (quill) {
+      quill.enable(false);
+      console.log("saved contents: ", currentNote);
+    }
+  };
+  const handleEdit = () => {
+    setEditable(true);
+    if (quill) quill.enable(true);
+  };
 
   return (
     <div
@@ -53,7 +82,16 @@ const Editor = ({ note }) => {
         flexFlow: "column",
       }}
     >
-      <EditorToolbar note={note} />
+      <EditorToolbar
+        note={note}
+        activeId={activeId}
+        editable={editable}
+        setEditable={setEditable}
+        handleEdit={handleEdit}
+        handleSave={handleSave}
+        currentNote={currentNote}
+        setCurrentNote={setCurrentNote}
+      />
       <div
         className="container"
         style={{
@@ -69,43 +107,23 @@ const Editor = ({ note }) => {
   );
 };
 
-const EditorToolbar = ({ note }) => {
-  // const [currentNote, setCurrentNote] = useState(
-  //   JSON.parse(JSON.stringify(note))
-  // );
-  const currentNote = note;
-  const [tempNote, setTempNote] = useState(currentNote);
-  console.log("temo note: ", tempNote);
-  const [editable, setEditable] = useState(false);
-  console.log("editor toolbar rendered with editable ", editable, currentNote);
-  const inputRef = useCallback((element) => {
-    console.log("element inserted into DOM!");
-  });
-  const handleDoubleClick = () => {
-    setEditable(true);
-    console.log("handle clicks");
-    // async () => {
-    //   await
-    // }
-    // inputRef.current.focus();
-  };
-  const handleBlur = () => {
-    setEditable(false);
-    console.log("inside blur: ", currentNote);
-    // inputRef.current.blur();
-  };
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    handleBlur();
-  };
+const EditorToolbar = ({
+  note,
+  activeId,
+  editable,
+  setEditable,
+  handleEdit,
+  handleSave,
+  currentNote,
+  setCurrentNote,
+}) => {
+  useEffect(() => {
+    setCurrentNote(note);
+  }, [activeId]);
+
   const handleChange = (event) => {
-    // setCurrentNote({
-    //   ...note,
-    //   title: event.target.value,
-    // });
-    console.log("event changed: ", event.target.value);
-    // currentNote.title = event.target.value;
-    setTempNote(() => {
+    console.log("text changed in note title");
+    setCurrentNote(() => {
       return {
         ...currentNote,
         title: event.target.value,
@@ -114,21 +132,16 @@ const EditorToolbar = ({ note }) => {
   };
   if (editable) {
     return (
-      <form
-        onSubmit={handleSubmit}
+      <div
         style={{
-          width: "fit-content",
-          border: "1px solid red",
-          height: "fit-content",
-          padding: "0px",
+          display: "flex",
+          justifyContent: "space-between",
         }}
       >
         <input
-          // ref={inputRef}
           style={{
             ...style,
             height: "40px",
-            display: "block",
             fontSize: "1.5em",
             marginBlockStart: "0.83em",
             marginBlockEnd: "0.83em",
@@ -141,17 +154,33 @@ const EditorToolbar = ({ note }) => {
           }}
           autoFocus
           type="text"
-          value={tempNote.title}
+          value={currentNote.title}
           onChange={handleChange}
-          onBlur={handleBlur}
         />
-      </form>
+        <IconButton
+          sx={{
+            marginRight: "10px",
+          }}
+          onClick={handleSave}
+        >
+          <SaveIcon
+            sx={{
+              color: "black",
+              fontSize: 30,
+            }}
+          />
+        </IconButton>
+      </div>
     );
   }
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+      }}
+    >
       <h2
-        onDoubleClick={handleDoubleClick}
         style={{
           ...style,
           margin: "3px",
@@ -159,11 +188,39 @@ const EditorToolbar = ({ note }) => {
           textAlign: "start",
           height: "auto",
           border: "1px solid green",
+          display: "inline-block",
         }}
       >
-        {tempNote.title}
+        {currentNote.title}
       </h2>
-    </>
+      <div>
+        <IconButton
+          sx={{
+            marginRight: "5px",
+          }}
+          onClick={handleEdit}
+        >
+          <EditNoteIcon
+            sx={{
+              color: "black",
+              fontSize: 30,
+            }}
+          />
+        </IconButton>
+        <IconButton
+          sx={{
+            marginRight: "10px",
+          }}
+        >
+          <ShareIcon
+            sx={{
+              color: "black",
+              fontSize: 30,
+            }}
+          />
+        </IconButton>
+      </div>
+    </div>
   );
 };
 

@@ -23,7 +23,6 @@ router.get("/notes", (req, res) => {
 router.post("/notes/", (req, res) => {
   var note = req.body;
   const user = req.user;
-  if (!note.status) note.status = "not started";
   const newNote = new Note({ ...note, userId: user.id });
 
   newNote
