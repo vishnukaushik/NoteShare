@@ -8,7 +8,7 @@ export function ButtonAppBar({ style }) {
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/login");
+    navigate("/signin");
   };
   return (
     <AppBar style={{ ...style }}>

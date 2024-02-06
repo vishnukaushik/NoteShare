@@ -15,10 +15,10 @@ const style = {
 
 let currentNote = null;
 
-const NotesPage = () => {
+const NotesPage = ({ setSignIn }) => {
   console.log("Inside notes page");
   const token = localStorage.getItem("token");
-  if (token === null) return <Unauthorized />;
+  if (token === null) return <Unauthorized setSignIn={setSignIn} />;
   const [notes, setNotes] = useState([]);
   const [activeId, setActiveId] = useState(null);
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ const NotesPage = () => {
         setNotes(data.data);
       })
       .catch((err) => {
-        navigate("/login");
+        navigate("/signin");
       });
   }, []);
 

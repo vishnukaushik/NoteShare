@@ -4,12 +4,13 @@ const style = {
   color: "black",
 };
 
-const Unauthorized = () => {
+const Unauthorized = ({ setSignIn }) => {
   console.log("Inside unauthorized component");
+  setSignIn(true);
   return (
     <>
       <h4 style={style}>User Unauthorized</h4>
-      <Navigate to={"/login"} />
+      <Navigate to={"/signin"} />
     </>
   );
 };

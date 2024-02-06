@@ -4,10 +4,7 @@ import PasswordIcon from "@mui/icons-material/Lock";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useState } from "react";
-import axios from "axios";
 import ErrorNotification from "./ErrorNotification";
-import { useNavigate } from "react-router-dom";
-import { BACKEND_BASE_URL } from "../App";
 
 const PasswordVisibility = ({ showPassword, handlePasswordVisibility }) => {
   return (
@@ -17,41 +14,21 @@ const PasswordVisibility = ({ showPassword, handlePasswordVisibility }) => {
   );
 };
 
-export default function UserLoginForm() {
+export default function UserSigninForm({
+  signIn,
+  toggleSignIn,
+  handleSubmit,
+  username,
+  setUsername,
+  password,
+  setPassword,
+  error,
+  setError,
+}) {
   const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword);
-  };
-
-  const handleUserLogin = (event) => {
-    event.preventDefault();
-    axios
-      .post(`${BACKEND_BASE_URL}/auth/signin`, { username, password })
-      .then((result) => {
-        const token = result.data.token;
-        localStorage.setItem("token", token);
-        navigate("/notes");
-      })
-      .catch((err) => {
-        console.error(`request sent but FAILED: ${err}`);
-        localStorage.setItem("token", null);
-        setError("Invalid username or password!");
-        setTimeout(() => {
-          setError(null);
-        }, 5000);
-      });
-    setUsername("");
-    setPassword("");
-  };
-
-  const handleForgotPassword = () => {
-    // TODO: handle forgot password
-    console.log("TODO: handle forgot password");
   };
 
   return (
@@ -66,9 +43,11 @@ export default function UserLoginForm() {
         justifyContent: "center",
       }}
     >
-      <Typography variant="h5">User Login</Typography>
+      <Typography variant="h5">
+        {signIn ? "User sign in" : "User sign up"}
+      </Typography>
       {error && <ErrorNotification error={error} setError={setError} />}
-      <form onSubmit={handleUserLogin}>
+      <form onSubmit={handleSubmit}>
         <div
           style={{
             display: "flex",
@@ -132,12 +111,12 @@ export default function UserLoginForm() {
             <Button
               variant="text"
               size="small"
-              onClick={handleForgotPassword}
+              onClick={toggleSignIn}
               style={{
-                fontSize: "12px",
+                fontSize: "10px",
               }}
             >
-              forgot password?
+              {signIn ? "create account" : "already user?"}
             </Button>
             <Button
               variant="contained"
@@ -148,7 +127,7 @@ export default function UserLoginForm() {
                 fontSize: "12px",
               }}
             >
-              Login
+              {signIn ? "Sign in" : "Sign up"}
             </Button>
           </div>
         </div>
