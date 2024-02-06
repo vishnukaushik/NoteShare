@@ -43,8 +43,15 @@ const NoteItem = ({ note, index, activeId, handleNoteItemClick }) => {
         >
           {note.title}
         </Typography>
-        <Typography style={{ ...style, padding: "0px 5px", textAlign: "left" }}>
-          {note.description}
+        <Typography
+          style={{
+            ...style,
+            padding: "0px 5px",
+            textAlign: "left",
+            fontSize: "0.8rem",
+          }}
+        >
+          {note.description[0]["insert"]}
         </Typography>
       </Grid>
     </ButtonBase>

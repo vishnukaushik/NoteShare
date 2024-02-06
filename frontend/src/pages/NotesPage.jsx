@@ -81,7 +81,7 @@ const NotesPage = () => {
             overflowY: "auto",
           }}
         >
-          <Note note={currentNote} activeId={activeId} />
+          <Note note={currentNote} activeId={activeId} notes={ notes} setNotes={setNotes} />
         </Grid>
       </Grid>
     </Box>

@@ -8,24 +8,33 @@ import {
   Save as SaveIcon,
 } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
+import axios from "axios";
+import { BACKEND_BASE_URL } from "../App";
 
 const style = {
   color: "black",
 };
 
 var quill;
-const Note = ({ note, activeId }) => {
+const Note = ({ note, activeId, notes, setNotes }) => {
   if (!note) return <h4 style={style}>No note is selected</h4>;
   return (
     <>
-      <Editor note={note} activeId={activeId} />
+      <Editor
+        note={note}
+        activeId={activeId}
+        notes={notes}
+        setNotes={setNotes}
+      />
     </>
   );
 };
 
-const Editor = ({ note, activeId }) => {
+const Editor = ({ note, activeId, notes, setNotes }) => {
   const [editable, setEditable] = useState(false);
   const [currentNote, setCurrentNote] = useState(note);
+
+  console.log("note: ", note);
 
   var toolbarOptions = [
     ["bold", "italic", "underline", "strike"],
@@ -51,12 +60,11 @@ const Editor = ({ note, activeId }) => {
           toolbar: toolbarOptions,
         },
       });
-      quill.insertText(0, note.description, true);
+      quill.setContents(note.description);
       if (!editable) quill.enable(false);
-      quill.on("text-change", (delta, oldDelta, source) => {
-        console.log("text changed in note description");
+      quill.on("text-change", () => {
         setCurrentNote((thisNote) => {
-          return { ...thisNote, description: delta.ops };
+          return { ...thisNote, description: quill.getContents().ops };
         });
       });
     },
@@ -67,6 +75,21 @@ const Editor = ({ note, activeId }) => {
     if (quill) {
       quill.enable(false);
       console.log("saved contents: ", currentNote);
+
+      setNotes(
+        notes.map((note) => {
+          if (note._id === currentNote._id) return currentNote;
+          return note;
+        })
+      );
+
+      axios
+        .put(`${BACKEND_BASE_URL}/notes/${currentNote._id}`, currentNote, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        })
+        .then((response) => {
+          console.log("saved request successful: ", response);
+        });
     }
   };
   const handleEdit = () => {
@@ -122,7 +145,6 @@ const EditorToolbar = ({
   }, [activeId]);
 
   const handleChange = (event) => {
-    console.log("text changed in note title");
     setCurrentNote(() => {
       return {
         ...currentNote,

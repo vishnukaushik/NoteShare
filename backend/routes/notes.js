@@ -56,14 +56,16 @@ router.get("/notes/:id", (req, res) => {
 router.put("/notes/:id", (req, res) => {
   const id = req.params.id;
   const updatedNote = req.body;
-
+  console.log("in put request: ", id, updatedNote);
   Note.findByIdAndUpdate({ _id: id }, updatedNote, {
     new: true,
   })
     .then((note) => {
+      console.log("request successful");
       res.status(200).json(note);
     })
     .catch((err) => {
+      console.error(err);
       res.status(403).send({ error: "Note not found!" });
     });
 });
