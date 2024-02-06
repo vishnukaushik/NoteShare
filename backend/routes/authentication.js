@@ -21,8 +21,9 @@ router.post("/signup", (req, res) => {
     .then((result) => {
       const hashedPassword = result.password;
       console.log("User details saved successfully! ", result);
+      result._id = result._id.toString().trim();
       const token = jwt.sign(
-        { username, password: hashedPassword, id: result._id },
+        { username, password: hashedPassword, _id: result._id },
         SECRET_KEY,
         {
           expiresIn: "2h",
@@ -36,27 +37,34 @@ router.post("/signup", (req, res) => {
     });
 });
 
-router.post('/signin', (req, res)=>{
-    const {username, password} = req.body
-    User.findOne({username}).then((user)=>{
-        console.log(user)
-        bcrypt.compare(password, user.password).then(result=>{
-            if(result)
-            {
-                const token = jwt.sign({username, password: user.password, id: user._id}, SECRET_KEY, {
-                    expiresIn: '2h'
-                });
-                res.send({token})
-            }
-            else{
-                res.status(401).send({err: 'Incorrect password'})
-            }
-        }).catch(err=>{
-            res.status(501).send({err})
+router.post("/signin", (req, res) => {
+  const { username, password } = req.body;
+  User.findOne({ username })
+    .then((user) => {
+      console.log("user: ", user);
+      bcrypt
+        .compare(password, user.password)
+        .then((result) => {
+          if (result) {
+            const token = jwt.sign(
+              { username, password: user.password, _id: user._id },
+              SECRET_KEY,
+              {
+                expiresIn: "2h",
+              }
+            );
+            res.send({ token });
+          } else {
+            res.status(401).send({ err: "Incorrect password" });
+          }
         })
-    }).catch(err=>{
-        res.status(401).send({err})
+        .catch((err) => {
+          res.status(501).send({ err });
+        });
     })
-})
+    .catch((err) => {
+      res.status(401).send({ err });
+    });
+});
 
 module.exports = router

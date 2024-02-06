@@ -9,8 +9,9 @@ router.use(authenticate);
 router.get("/notes", (req, res) => {
   const user = req.user;
   console.log(user);
-  Note.find({ userId: user.id })
+  Note.find({ userId: user._id })
     .then((notes) => {
+      console.log("found notes for this user");
       console.log(notes);
       res.json(notes);
     })
@@ -23,7 +24,7 @@ router.get("/notes", (req, res) => {
 router.post("/notes/", (req, res) => {
   var note = req.body;
   const user = req.user;
-  const newNote = new Note({ ...note, userId: user.id });
+  const newNote = new Note({ ...note, userId: user._id });
 
   newNote
     .save()
@@ -32,6 +33,7 @@ router.post("/notes/", (req, res) => {
       res.status(200).json(result);
     })
     .catch((err) => {
+      console.log("error in saving note: ", err);
       res.status(404).send({ err });
     });
 });
@@ -72,8 +74,13 @@ router.put("/notes/:id", (req, res) => {
 
 router.delete("/notes/:id", (req, res) => {
   const id = req.params.id;
-  Note.deleteOne({ _id: id })
+  console.log("user: ", req.user);
+  Note.deleteOne({
+    _id: id,
+    userId: req.user._id,
+  })
     .then((result) => {
+      console.log("result: ", result);
       if (result.acknowledged && result.deletedCount > 0) {
         console.log("deleted: ", result);
         res.status(200).send({ message: "deleted the note" });

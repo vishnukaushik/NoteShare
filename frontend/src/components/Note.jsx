@@ -5,6 +5,7 @@ import "../styles/textEditor.css";
 import {
   EditNote as EditNoteIcon,
   Share as ShareIcon,
+  Delete as DeleteIcon,
   Save as SaveIcon,
 } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
@@ -16,13 +17,14 @@ const style = {
 };
 
 var quill;
-const Note = ({ note, activeId, notes, setNotes }) => {
-  if (!note) return <h4 style={style}>No note is selected</h4>;
+const Note = ({ note, activeId, setActiveId, notes, setNotes }) => {
+  if (!activeId) return <h4 style={style}>No note is selected</h4>;
   return (
     <>
       <Editor
         note={note}
         activeId={activeId}
+        setActiveId={setActiveId}
         notes={notes}
         setNotes={setNotes}
       />
@@ -30,11 +32,9 @@ const Note = ({ note, activeId, notes, setNotes }) => {
   );
 };
 
-const Editor = ({ note, activeId, notes, setNotes }) => {
+const Editor = ({ note, activeId, setActiveId, notes, setNotes }) => {
   const [editable, setEditable] = useState(false);
   const [currentNote, setCurrentNote] = useState(note);
-
-  console.log("note: ", note);
 
   var toolbarOptions = [
     ["bold", "italic", "underline", "strike"],
@@ -74,27 +74,78 @@ const Editor = ({ note, activeId, notes, setNotes }) => {
     setEditable(false);
     if (quill) {
       quill.enable(false);
-      console.log("saved contents: ", currentNote);
 
-      setNotes(
-        notes.map((note) => {
-          if (note._id === currentNote._id) return currentNote;
-          return note;
-        })
-      );
-
-      axios
-        .put(`${BACKEND_BASE_URL}/notes/${currentNote._id}`, currentNote, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        })
-        .then((response) => {
-          console.log("saved request successful: ", response);
-        });
+      if (currentNote._id === "newnote") {
+        axios
+          .post(
+            `${BACKEND_BASE_URL}/notes/`,
+            {
+              title: currentNote.title,
+              description: currentNote.description,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          )
+          .then((savedNote) => {
+            currentNote._id = savedNote.data._id;
+            setNotes(
+              notes.map((note) => {
+                if (note._id === "newnote") return savedNote.data;
+                return note;
+              })
+            );
+          });
+      } else {
+        axios
+          .put(`${BACKEND_BASE_URL}/notes/${currentNote._id}`, currentNote, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          })
+          .then((savedNote) => {
+            console.log("saved request successful: ", savedNote);
+            setNotes(
+              notes.map((note) => {
+                if (note._id === currentNote._id) return savedNote.data;
+                return note;
+              })
+            );
+          });
+      }
     }
   };
   const handleEdit = () => {
     setEditable(true);
     if (quill) quill.enable(true);
+  };
+
+  const handleDelete = () => {
+    // TODO implement delete function
+
+    setNotes(notes.filter((note) => note._id !== currentNote._id));
+    setActiveId(null);
+
+    axios
+      .delete(`${BACKEND_BASE_URL}/notes/${currentNote._id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((result) => {
+        console.log("note deleted successfully: ", result);
+      })
+      .catch((err) => {
+        console.error("error deleting the note: ", err);
+      });
+    console.log("Implement Delete function");
+  };
+
+  const handleShare = () => {
+    // TODO implement share function
+    console.log("Implement Share function");
   };
 
   return (
@@ -114,6 +165,8 @@ const Editor = ({ note, activeId, notes, setNotes }) => {
         handleSave={handleSave}
         currentNote={currentNote}
         setCurrentNote={setCurrentNote}
+        handleDelete={handleDelete}
+        handleShare={handleShare}
       />
       <div
         className="container"
@@ -139,6 +192,8 @@ const EditorToolbar = ({
   handleSave,
   currentNote,
   setCurrentNote,
+  handleShare,
+  handleDelete,
 }) => {
   useEffect(() => {
     setCurrentNote(note);
@@ -233,6 +288,20 @@ const EditorToolbar = ({
           sx={{
             marginRight: "10px",
           }}
+          onClick={handleDelete}
+        >
+          <DeleteIcon
+            sx={{
+              color: "black",
+              fontSize: 30,
+            }}
+          />
+        </IconButton>
+        <IconButton
+          sx={{
+            marginRight: "10px",
+          }}
+          onClick={handleShare}
         >
           <ShareIcon
             sx={{

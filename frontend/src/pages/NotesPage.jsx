@@ -40,11 +40,24 @@ const NotesPage = () => {
       });
   }, []);
 
-  const handleNoteItemClickWrapper = (id, note) => {
+  const handleNoteItemClickWrapper = (index, note) => {
     return () => {
-      setActiveId(id);
-      currentNote = note; // check to remove this variable
+      setActiveId(index);
+      currentNote = note;
     };
+  };
+  const handleAdd = () => {
+    // TODO handle add note functionality
+    console.log("clicked on Add note button");
+    const newNote = {
+      _id: "newnote",
+      userId: "temp_userId",
+      title: "New note",
+      descritption: [],
+    };
+    setNotes((prevNotes) => [...prevNotes, newNote]);
+    console.log("notes.length: ", notes.length + 1);
+    handleNoteItemClickWrapper(notes.length + 1, newNote)();
   };
 
   return (
@@ -67,7 +80,7 @@ const NotesPage = () => {
           <NotesList
             notes={notes}
             activeId={activeId}
-            setActiveId={setActiveId}
+            handleAdd={handleAdd}
             handleNoteItemClickWrapper={handleNoteItemClickWrapper}
           />
         </Grid>
@@ -81,7 +94,13 @@ const NotesPage = () => {
             overflowY: "auto",
           }}
         >
-          <Note note={currentNote} activeId={activeId} notes={ notes} setNotes={setNotes} />
+          <Note
+            note={currentNote}
+            activeId={activeId}
+            setActiveId={setActiveId}
+            notes={notes}
+            setNotes={setNotes}
+          />
         </Grid>
       </Grid>
     </Box>

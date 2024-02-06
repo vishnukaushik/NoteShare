@@ -6,12 +6,9 @@ const style = {
 };
 
 const NoteItem = ({ note, index, activeId, handleNoteItemClick }) => {
-  // if (activeId === index) {
-  //   console.log("selected index: ", index, note);
-  // }
   return (
     <ButtonBase
-      className={index === activeId ? "selectedNoteItem" : "noteItem"}
+      className={index + 1 === activeId ? "selectedNoteItem" : "noteItem"}
       style={{
         borderBottom: "solid #026cde 1px",
       }}
@@ -33,8 +30,12 @@ const NoteItem = ({ note, index, activeId, handleNoteItemClick }) => {
         }}
       >
         <Typography
+          overflow={"hidden"}
+          textOverflow={"ellipsis"}
+          whiteSpace={"nowrap"}
           style={{
             ...style,
+            width: "inherit",
             fontSize: "1.3rem",
             textAlign: "left",
             padding: "0px 5px",
@@ -44,14 +45,18 @@ const NoteItem = ({ note, index, activeId, handleNoteItemClick }) => {
           {note.title}
         </Typography>
         <Typography
+          overflow={"hidden"}
           style={{
             ...style,
+            width: "inherit",
             padding: "0px 5px",
             textAlign: "left",
             fontSize: "0.8rem",
           }}
+          whiteSpace={"nowrap"}
+          textOverflow={"ellipsis"}
         >
-          {note.description[0]["insert"]}
+          {/* {note.description[0]["insert"]} */}
         </Typography>
       </Grid>
     </ButtonBase>
