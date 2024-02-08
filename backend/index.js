@@ -7,7 +7,7 @@ const authRoutes = require("./routes/authentication");
 const mongoose = require("mongoose");
 
 const DB_PASSWORD = process.env.DB_PASSWORD;
-const MONGODB_URI = `mongodb+srv://captaincoder:${DB_PASSWORD}@fullstackcourse.ifidch4.mongodb.net/NotesApp`;
+const MONGODB_URI = `mongodb+srv://captaincoder:${DB_PASSWORD}@fullstackcourse.ifidch4.mongodb.net/NotesApp&authSource=admin`;
 
 app.use(cors());
 
