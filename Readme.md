@@ -1,15 +1,14 @@
 # Todo
-- Implement new user registration
-    - UI
-    - UI logic
-    - connect to Backend
 - Share notes feature
     - UI
     - UI logic
     - connect to Backend
-- Forgot password feature (optional)
 
 # Completed
+- Implement new user registration
+    - UI
+    - UI logic
+    - connect to Backend
 - Implement add notes feature
     - UI
     - UI logic

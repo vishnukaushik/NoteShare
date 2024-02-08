@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "install": "cd backend & npm install & cd ../frontend & npm install",
     "dev:backend": "npm run dev --prefix backend",
     "dev:frontend": "npm run dev --prefix frontend",
     "dev": "npm run dev:backend & npm run dev:frontend"
