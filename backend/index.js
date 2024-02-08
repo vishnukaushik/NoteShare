@@ -36,6 +36,7 @@ console.error(`Connection error: ${err.message}`);
 
 dbConnection.on("disconnected", (err) => {
   console.log("MongoDB disconnected");
+  console.log("mongoURI: ", MONGODB_URI);
   if (err) console.log(err);
 });
 
