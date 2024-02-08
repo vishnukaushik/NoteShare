@@ -34,8 +34,9 @@ dbConnection.on('error', (err) => {
 console.error(`Connection error: ${err.message}`);
 });
 
-dbConnection.on('disconnected', () => {
-console.log('MongoDB disconnected');
+dbConnection.on("disconnected", (err) => {
+  console.log("MongoDB disconnected");
+  if (err) console.log(err);
 });
 
 process.on('SIGINT', () => {
