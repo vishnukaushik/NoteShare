@@ -2,7 +2,7 @@
   "scripts": {
     "install:backend": "npm --prefix ./backend install",
     "install:frontend": "npm --prefix ./frontend install",
-    "install": "npm run install:backend & npm install:frontend",
+    "install": "npm run install:backend & npm run install:frontend",
     "dev:backend": "npm run dev --prefix backend",
     "dev:frontend": "npm run dev --prefix frontend",
     "dev": "npm run dev:backend & npm run dev:frontend"
