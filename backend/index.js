@@ -7,7 +7,8 @@ const authRoutes = require("./routes/authentication");
 const mongoose = require("mongoose");
 
 const DB_PASSWORD = process.env.DB_PASSWORD;
-const MONGODB_URI = `mongodb+srv://captaincoder:${DB_PASSWORD}@fullstackcourse.ifidch4.mongodb.net/NotesApp&authSource=admin`;
+// const MONGODB_URI = `mongodb+srv://captaincoder:${DB_PASSWORD}@fullstackcourse.ifidch4.mongodb.net/NotesApp&authSource=admin`;
+const MONGODB_URI = `mongodb+srv://captaincoder:${DB_PASSWORD}@fullstackcourse.ifidch4.mongodb.net/NotesApp?retryWrites=true&w=majority`;
 
 app.use(cors());
 
@@ -26,7 +27,7 @@ app.listen(PORT, ()=>{
 mongoose.connect(MONGODB_URI)
 const dbConnection = mongoose.connection
 dbConnection.on('connected', () => {
-    console.log(`Connected to MongoDB on ${MONGODB_URI}`);
+    console.log(`Connection to MongoDB on ${MONGODB_URI} established`);
   });
   
 dbConnection.on('error', (err) => {
