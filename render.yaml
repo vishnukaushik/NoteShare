@@ -1,0 +1,23 @@
+services:
+- type: web
+  name: app-backend
+  runtime: node
+  rootDir: backend
+  buildCommand: 
+  startCommand: npm start
+- type: web
+  name: Notes App
+  runtime: static
+  buildCommand: npm run build
+  staticPublishPath: ./dist
+  pullRequestPreviewsEnabled: true # optional
+  rootDir: frontend
+  buildFilter:
+    paths:
+    - src/**/*.js
+    ignoredPaths:
+    - src/**/*.test.js
+  headers:
+    - path: /*
+      name: X-Frame-Options
+      value: sameorigin
