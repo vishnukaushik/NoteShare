@@ -11,10 +11,11 @@ import NotesPage from "./pages/NotesPage";
 import PageNotExists from "./components/PageNotExists";
 import { useState } from "react";
 
-export const BACKEND_BASE_URL = "http://localhost:3000/api";
+export const BACKEND_BASE_URL = import.meta.env.BACKEND_BASE_URL;
 
 function App() {
   console.log("inside frontend server");
+  console.log(BACKEND_BASE_URL);
   const navigate = useNavigate();
   const [signIn, setSignIn] = useState(true);
   const toggleSignIn = () => {
