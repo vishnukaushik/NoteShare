@@ -15,7 +15,8 @@ export const BACKEND_BASE_URL = import.meta.env.BACKEND_BASE_URL;
 
 function App() {
   console.log("inside frontend server");
-  console.log(BACKEND_BASE_URL);
+  console.log("BACKEND_BASE_URL: ", BACKEND_BASE_URL);
+  console.log("mode: ", import.meta.env);
   const navigate = useNavigate();
   const [signIn, setSignIn] = useState(true);
   const toggleSignIn = () => {

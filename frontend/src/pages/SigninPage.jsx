@@ -50,7 +50,7 @@ export default function SigninPage({ signIn, setSignIn }) {
       .catch((err) => {
         console.error(`request sent but FAILED: ${err}`);
         localStorage.setItem("token", null);
-        setError("Invalid username or password!");
+        setError("Unable to signup!");
         setTimeout(() => {
           setError(null);
         }, 5000);
