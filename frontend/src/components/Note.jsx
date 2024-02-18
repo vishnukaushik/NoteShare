@@ -11,6 +11,8 @@ import {
 import { IconButton } from "@mui/material";
 import axios from "axios";
 import { BACKEND_BASE_URL } from "../App";
+import SharePopUp from "./SharePopUp";
+import DeletePopup from "./DeletePopup";
 
 const style = {
   color: "black",
@@ -123,8 +125,6 @@ const Editor = ({ note, activeId, setActiveId, notes, setNotes }) => {
   };
 
   const handleDelete = () => {
-    // TODO implement delete function
-
     setNotes(notes.filter((note) => note._id !== currentNote._id));
     setActiveId(null);
 
@@ -145,6 +145,7 @@ const Editor = ({ note, activeId, setActiveId, notes, setNotes }) => {
 
   const handleShare = () => {
     // TODO implement share function
+    setShowSharePopup(true);
     console.log("Implement Share function");
   };
 
@@ -157,8 +158,11 @@ const Editor = ({ note, activeId, setActiveId, notes, setNotes }) => {
       }}
     >
       <EditorToolbar
+        notes={notes}
+        setNotes={setNotes}
         note={note}
         activeId={activeId}
+        setActiveId={setActiveId}
         editable={editable}
         setEditable={setEditable}
         handleEdit={handleEdit}
@@ -184,21 +188,21 @@ const Editor = ({ note, activeId, setActiveId, notes, setNotes }) => {
 };
 
 const EditorToolbar = ({
+  notes,
+  setNotes,
   note,
   activeId,
+  setActiveId,
   editable,
-  setEditable,
   handleEdit,
   handleSave,
   currentNote,
   setCurrentNote,
-  handleShare,
   handleDelete,
 }) => {
   useEffect(() => {
     setCurrentNote(note);
   }, [activeId]);
-
   const handleChange = (event) => {
     setCurrentNote(() => {
       return {
@@ -264,7 +268,6 @@ const EditorToolbar = ({
           padding: "2px",
           textAlign: "start",
           height: "auto",
-          border: "1px solid green",
           display: "inline-block",
         }}
       >
@@ -284,32 +287,13 @@ const EditorToolbar = ({
             }}
           />
         </IconButton>
-        <IconButton
-          sx={{
-            marginRight: "10px",
-          }}
-          onClick={handleDelete}
-        >
-          <DeleteIcon
-            sx={{
-              color: "black",
-              fontSize: 30,
-            }}
-          />
-        </IconButton>
-        <IconButton
-          sx={{
-            marginRight: "10px",
-          }}
-          onClick={handleShare}
-        >
-          <ShareIcon
-            sx={{
-              color: "black",
-              fontSize: 30,
-            }}
-          />
-        </IconButton>
+        <DeletePopup
+          notes={notes}
+          setNotes={setNotes}
+          currentNote={currentNote}
+          setActiveId={setActiveId}
+        />
+        <SharePopUp />
       </div>
     </div>
   );

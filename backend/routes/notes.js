@@ -2,6 +2,7 @@ const express = require('express');
 const authenticate = require('../middlewares/authenticate');
 const router = express.Router();
 const Note = require("../models/note");
+const User = require("../models/user");
 
 router.use(express.json());
 router.use(authenticate);
@@ -9,7 +10,16 @@ router.use(authenticate);
 router.get("/notes", (req, res) => {
   const user = req.user;
   console.log(user);
-  Note.find({ userId: user._id })
+  Note.find({
+    $or: [
+      { userId: user._id },
+      {
+        sharedWith: {
+          $in: [user._id],
+        },
+      },
+    ],
+  })
     .then((notes) => {
       console.log("found notes for this user");
       console.log(notes);
@@ -91,6 +101,35 @@ router.delete("/notes/:id", (req, res) => {
     .catch((err) => {
       res.status(404).send({ err, message: "Unable to find note" });
     });
+});
+
+router.post("/notes/share/:id", (req, res) => {
+  const noteId = req.params.id;
+  const shareToUsername = req.body.username;
+  User.findOne({ username: shareToUsername })
+    .then((data) => {
+      const shareToUserId = data._id.toString().trim();
+      Note.findOneAndUpdate(
+        { _id: noteId },
+        {
+          $addToSet: { sharedWith: shareToUserId },
+        },
+        {
+          new: true,
+        }
+      )
+        .then((res) => {
+          console.log("this is the updated note: ", res);
+        })
+        .catch((err) => {
+          console.error("Unable to find note: ", err);
+        });
+    })
+    .catch((err) => {
+      console.error("err: ", err);
+    });
+  console.log("notes share: ", noteId, shareToUsername, req.user);
+  res.send("req completed");
 });
 
 module.exports = router

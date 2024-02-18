@@ -5,7 +5,7 @@ const style = {
   //   border: "solid black",
 };
 
-const NoteItem = ({ note, index, activeId, handleNoteItemClick }) => {
+const NoteItem = ({ note, index, activeId, handleNoteItemClick, shared }) => {
   return (
     <ButtonBase
       className={index + 1 === activeId ? "selectedNoteItem" : "noteItem"}
@@ -44,20 +44,22 @@ const NoteItem = ({ note, index, activeId, handleNoteItemClick }) => {
         >
           {note.title}
         </Typography>
-        <Typography
-          overflow={"hidden"}
-          style={{
-            ...style,
-            width: "inherit",
-            padding: "0px 5px",
-            textAlign: "left",
-            fontSize: "0.8rem",
-          }}
-          whiteSpace={"nowrap"}
-          textOverflow={"ellipsis"}
-        >
-          {/* {note.description[0]["insert"]} */}
-        </Typography>
+        {shared && (
+          <Typography
+            overflow={"hidden"}
+            style={{
+              ...style,
+              width: "inherit",
+              padding: "0px 5px",
+              textAlign: "left",
+              fontSize: "0.8rem",
+            }}
+            whiteSpace={"nowrap"}
+            textOverflow={"ellipsis"}
+          >
+            shared
+          </Typography>
+        )}
       </Grid>
     </ButtonBase>
   );
