@@ -38,6 +38,7 @@ router.post("/signup", (req, res) => {
 });
 
 router.post("/signin", (req, res) => {
+  console.log("inside signin API")
   const { username, password } = req.body;
   User.findOne({ username })
     .then((user) => {

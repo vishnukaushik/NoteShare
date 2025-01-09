@@ -1,48 +1,61 @@
-import {
-  Navigate,
-  Route,
-  BrowserRouter as Router,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
-import "./App.css";
-import SigninPage from "./pages/SigninPage";
-import NotesPage from "./pages/NotesPage";
-import PageNotExists from "./components/PageNotExists";
-import { useState } from "react";
+// src/App.jsx
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import React from 'react';
+import LoginPage from './pages/LoginPage';
+import ProtectedRoute from './auth/ProtectedRoute';
+import PublicRoute from './auth/PublicRoute';
+import NotesPage from './pages/NotesPage'
 
-export const BACKEND_BASE_URL = import.meta.env.BACKEND_BASE_URL;
+export const BACKEND_BASE_URL = "http://localhost:3000/api"
 
 function App() {
-  console.log("inside frontend server");
-  console.log("BACKEND_BASE_URL: ", BACKEND_BASE_URL);
-  console.log("mode: ", import.meta.env);
-  const navigate = useNavigate();
-  const [signIn, setSignIn] = useState(true);
-  const toggleSignIn = () => {
-    setSignIn((val) => !val);
-    const url = signIn ? "/signup" : "/signin";
-    navigate(url);
-  };
-
   return (
-    <>
+    <BrowserRouter>
       <Routes>
-        <Route
-          path="signin"
-          element={<SigninPage signIn={true} setSignIn={setSignIn} />}
+        {/* Default route - redirects based on auth status */}
+        <Route 
+          path="/" 
+          element={
+            localStorage.getItem('token') 
+              ? <Navigate to="/notes" replace /> 
+              : <Navigate to="/signin" replace />
+          } 
         />
+
+        {/* Public routes - accessible only when not authenticated */}
         <Route
-          path="signup"
-          element={<SigninPage signIn={false} setSignIn={setSignIn} />}
+          path="/signin"
+          element={
+            <PublicRoute>
+              <LoginPage />
+            </PublicRoute>
+          }
         />
-        <Route exact path="/">
-          <Route index element={<Navigate to="notes" />} />
-          <Route path="notes" element={<NotesPage setSignIn={setSignIn} />} />
-          <Route path="*" element={<PageNotExists />} />
-        </Route>
+
+        {/* Public routes - accessible only when not authenticated */}
+        <Route
+          path="/signup"
+          element={
+            <PublicRoute>
+              <LoginPage signup/>
+            </PublicRoute>
+          }
+        />
+
+        {/* Protected routes - require authentication */}
+        <Route
+          path="/notes"
+          element={
+            <ProtectedRoute>
+              <NotesPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Catch all unmatched routes */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </>
+    </BrowserRouter>
   );
 }
 
