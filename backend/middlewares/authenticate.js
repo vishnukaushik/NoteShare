@@ -5,8 +5,8 @@ const authenticate = (req, res, next) => {
   console.log(req.header("Authorization"));
   const token = req.header("Authorization").split(" ")[1];
   try {
-    const { username, password, _id } = jwt.verify(token, SECRET_KEY);
-    req.user = { username, password, _id };
+    const { username } = jwt.verify(token, SECRET_KEY);
+    req.user = { username };
     console.log("in middileware: ", req.user);
     next();
   } catch (err) {

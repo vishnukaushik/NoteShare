@@ -5,8 +5,10 @@ import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './auth/ProtectedRoute';
 import PublicRoute from './auth/PublicRoute';
 import NotesPage from './pages/NotesPage'
+import {GoogleOAuthProvider} from "@react-oauth/google";
 
-export const BACKEND_BASE_URL = "http://localhost:3000/api"
+export const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
+export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 function App() {
   return (
@@ -27,7 +29,9 @@ function App() {
           path="/signin"
           element={
             <PublicRoute>
-              <LoginPage />
+              <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+                <LoginPage />
+              </GoogleOAuthProvider>
             </PublicRoute>
           }
         />
@@ -37,7 +41,9 @@ function App() {
           path="/signup"
           element={
             <PublicRoute>
-              <LoginPage signup/>
+              <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+                <LoginPage signup/>
+              </GoogleOAuthProvider>
             </PublicRoute>
           }
         />

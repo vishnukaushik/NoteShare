@@ -6,7 +6,7 @@ import axios from "axios";
 import '../styles/LoginPage.css';
 import {BACKEND_BASE_URL} from '../App'
 import { useNavigate } from "react-router-dom";
-import { GoogleOAuthProvider, useGoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const LoginPage = ({signup = false}) => {
     const navigate = useNavigate()
@@ -62,7 +62,7 @@ const LoginPage = ({signup = false}) => {
         navigate("/notes");
         console.log("signed in successfully")
         }).catch(error => {
-            setLoginError('Invalid email or password. Please try again.');
+            setLoginError('Invalid email or password. Please try again or try signing in using other methods');
             console.log("Error: ", error)
         }).finally(()=> setIsLoading(false));
     
@@ -83,8 +83,38 @@ const LoginPage = ({signup = false}) => {
     }
   };
 
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      setIsLoading(true);
+      try {
+        // Send the token to your backend
+        console.log("google response: ", tokenResponse)
+        const response = await axios.post(BACKEND_BASE_URL + "/auth/google/callback", {
+          'accessToken': tokenResponse.access_token,
+        });
+        const token = response.data.token;
+        console.log("Google Login successful:", token);
+        
+        if(!token)
+            throw new Error("Sign in failed! Please try again")
+        localStorage.setItem("token", token);
+        navigate("/notes");
+
+      } catch (error) {
+        setLoginError(error.message);
+        console.log("Error: ", error)
+        console.error("Google Login failed:", error);
+      } finally {
+        setIsLoading(false)
+      }
+    },
+    onError: () => {
+      console.error("Google login failed");
+    },
+  });
+
   return (
-    <GoogleOAuthProvider clientId="244058698901-4ju2lolce48a2gbbieh98lnb2gcfd5nc.apps.googleusercontent.com">
+    
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
@@ -159,7 +189,7 @@ const LoginPage = ({signup = false}) => {
         </div>
 
         <div className="social-buttons">
-          <button type="button" className="social-button">
+          <button type="button" className="social-button" onClick={googleLogin}>
             <img src="https://www.google.com/favicon.ico" alt="Google" width="20" height="20" />
             <span>Google</span>
           </button>
@@ -190,7 +220,6 @@ const LoginPage = ({signup = false}) => {
         }
       </div>
     </div>
-    </GoogleOAuthProvider>
   );
 };
 
