@@ -6,6 +6,7 @@ import axios from "axios";
 import '../styles/LoginPage.css';
 import {BACKEND_BASE_URL} from '../App'
 import { useNavigate } from "react-router-dom";
+import { GoogleOAuthProvider, useGoogleLogin } from "@react-oauth/google";
 
 const LoginPage = ({signup = false}) => {
     const navigate = useNavigate()
@@ -83,6 +84,7 @@ const LoginPage = ({signup = false}) => {
   };
 
   return (
+    <GoogleOAuthProvider clientId="244058698901-4ju2lolce48a2gbbieh98lnb2gcfd5nc.apps.googleusercontent.com">
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
@@ -188,6 +190,7 @@ const LoginPage = ({signup = false}) => {
         }
       </div>
     </div>
+    </GoogleOAuthProvider>
   );
 };
 
