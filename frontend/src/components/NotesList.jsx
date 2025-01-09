@@ -1,10 +1,8 @@
 import NoteItem from "./NoteItem";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import { IconButton } from "@mui/material";
+import "../styles/NotesPage.css";
 
-const style = {
-  color: "black",
-};
 
 const NotesList = ({
   notes,
@@ -41,7 +39,7 @@ const NotesList = ({
       >
         <NoteAddIcon
           sx={{
-            color: "black",
+            color: "#2563eb",
             fontSize: 30,
           }}
         />

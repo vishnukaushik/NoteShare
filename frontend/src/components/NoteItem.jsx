@@ -1,66 +1,22 @@
-import { Typography, Grid, ButtonBase } from "@mui/material";
-
-const style = {
-  color: "black",
-  //   border: "solid black",
-};
+import { Typography, ButtonBase } from "@mui/material";
+import "../styles/NoteItem.css"; // Import the CSS file
 
 const NoteItem = ({ note, index, activeId, handleNoteItemClick, shared }) => {
   return (
     <ButtonBase
-      className={index + 1 === activeId ? "selectedNoteItem" : "noteItem"}
-      style={{
-        borderBottom: "solid #026cde 1px",
-      }}
-      onClick={handleNoteItemClick}
-      sx={{
-        display: "block",
-        width: "100%",
-        borderRadius: "20px",
-        boxShadow: "0",
-      }}
+      className={index + 1 === activeId ? "note-item selected" : "note-item"}
+      onClick={() => handleNoteItemClick(note, index)}
     >
-      <Grid
-        container
-        alignContent="flex-start"
-        flexDirection="column"
-        sx={{
-          boxShadow: "0",
-          padding: "2px",
-        }}
-      >
-        <Typography
-          overflow={"hidden"}
-          textOverflow={"ellipsis"}
-          whiteSpace={"nowrap"}
-          style={{
-            ...style,
-            width: "inherit",
-            fontSize: "1.3rem",
-            textAlign: "left",
-            padding: "0px 5px",
-            fontWeight: "bold",
-          }}
-        >
+      <div className="note-container">
+        <Typography className="note-title">
           {note.title}
         </Typography>
         {shared && (
-          <Typography
-            overflow={"hidden"}
-            style={{
-              ...style,
-              width: "inherit",
-              padding: "0px 5px",
-              textAlign: "left",
-              fontSize: "0.8rem",
-            }}
-            whiteSpace={"nowrap"}
-            textOverflow={"ellipsis"}
-          >
+          <Typography className="shared-text">
             shared
           </Typography>
         )}
-      </Grid>
+      </div>
     </ButtonBase>
   );
 };

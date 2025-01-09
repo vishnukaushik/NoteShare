@@ -6,6 +6,7 @@ import ProtectedRoute from './auth/ProtectedRoute';
 import PublicRoute from './auth/PublicRoute';
 import NotesPage from './pages/NotesPage'
 import {GoogleOAuthProvider} from "@react-oauth/google";
+import NewNotes from './pages/NewNotesPage';
 
 export const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
 export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;

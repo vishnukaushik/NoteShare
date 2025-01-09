@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { Mail, Lock, Loader2 } from 'lucide-react';
 import Logo from '../shared/Logo';
 import axios from "axios";
-import '../styles/LoginPage.css';
 import {BACKEND_BASE_URL} from '../App'
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
+import '../styles/LoginPage.css';
 
 const LoginPage = ({signup = false}) => {
     const navigate = useNavigate()
