@@ -193,10 +193,6 @@ const LoginPage = ({signup = false}) => {
             <img src="https://www.google.com/favicon.ico" alt="Google" width="20" height="20" />
             <span>Google</span>
           </button>
-          <button type="button" className="social-button">
-            <img src="https://github.com/favicon.ico" alt="GitHub" width="20" height="20" />
-            <span>GitHub</span>
-          </button>
         </div>
 
         {
