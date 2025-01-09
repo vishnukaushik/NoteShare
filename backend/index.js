@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 
 const DB_PASSWORD = process.env.DB_PASSWORD;
 // const MONGODB_URI = `mongodb+srv://captaincoder:${DB_PASSWORD}@fullstackcourse.ifidch4.mongodb.net/NotesApp&authSource=admin`;
-const MONGODB_URI = `mongodb+srv://captaincoder:${DB_PASSWORD}@sideprojects.mq16a.mongodb.net/?retryWrites=true&w=majority&appName=SideProjects`;
+const MONGODB_URI = `mongodb+srv://captaincoder:${DB_PASSWORD}@sideprojects.mq16a.mongodb.net/NotesApp?retryWrites=true&w=majority&appName=SideProjects`;
 
 app.use(cors());
 
