@@ -72,6 +72,8 @@
     border-radius: 4px;
     font-size: 0.875rem;
     transition: border-color 0.2s;
+    background-color: #e5e7eb;
+    color: #000;
   }
   
   .form-input:focus {
