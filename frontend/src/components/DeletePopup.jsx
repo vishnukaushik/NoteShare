@@ -5,6 +5,7 @@ import axios from "axios";
 import { BACKEND_BASE_URL } from "../App";
 import { getAccessToken } from "../utils/tokenUtilities";
 import { useNavigate } from "react-router-dom";
+import "../styles/deletePopup.css"
 
 const DeletePopup = ({ notes, setNotes, currentNote, setActiveId }) => {
   const [showPopup, setShowPopup] = useState(false);
@@ -71,27 +72,31 @@ const DeletePopup = ({ notes, setNotes, currentNote, setActiveId }) => {
             zIndex: 2,
           }}
         >
-          <div>
-            <Typography onClick={(e) => e.stopPropagation()}>
+          <div className="delete-container">
+            <Typography 
+              style={{
+                textAlign: "center"
+              }}
+            onClick={(e) => e.stopPropagation()}>
               Are you sure you want to DELETE this note?
             </Typography>
-            <Button
-              onClick={handleClosePopup}
-              style={{
-                margin: "5px",
-              }}
-            >
-              cancel
-            </Button>
-            <Button
-              onClick={handleDelete}
-              style={{
-                margin: "5px",
-                color: "red",
-              }}
-            >
-              Delete
-            </Button>
+            <div className="button-container">
+              <Button
+                className="button-cancel"
+                onClick={handleClosePopup}
+                style={{
+                  margin: "5px",
+                }}
+              >
+                cancel
+              </Button>
+              <Button
+                className="button-delete"
+                onClick={handleDelete}
+              >
+                Delete
+              </Button>
+            </div>
           </div>
         </Card>
       </>
