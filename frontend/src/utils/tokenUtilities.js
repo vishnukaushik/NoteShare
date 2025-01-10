@@ -1,5 +1,6 @@
-function isTokenExpired(token)
+function isTokenExpired()
 {
+    const token = getAccessToken();
     if(token === null)
         return true;
     if(token.createdAt<(Date.now()-7200000))
@@ -9,7 +10,7 @@ function isTokenExpired(token)
 
 const getAccessToken = ()=>{
     const tokenObject = JSON.parse(localStorage.getItem("token"));
-    if(tokenObject && !isTokenExpired(tokenObject))
+    if(tokenObject)
         return tokenObject.accessToken;
     return null;
 }

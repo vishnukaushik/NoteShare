@@ -32,7 +32,6 @@ const DeletePopup = ({ notes, setNotes, currentNote, setActiveId }) => {
       .catch((err) => {
         console.error("error deleting the note: ", err);
       });
-    console.log("Implement Delete function");
   };
   const handleClosePopup = () => {
     console.log("handling closing popup");

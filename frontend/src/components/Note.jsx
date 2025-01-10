@@ -1,7 +1,6 @@
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
-import { useCallback, useEffect, useState } from "react";
-import "../styles/textEditor.css";
+import { useCallback, useEffect, useState, useRef } from "react";
 import {
   EditNote as EditNoteIcon,
   Share as ShareIcon,
@@ -15,12 +14,13 @@ import SharePopUp from "./SharePopUp";
 import DeletePopup from "./DeletePopup";
 import { getAccessToken } from "../utils/tokenUtilities";
 import { useNavigate } from "react-router-dom";
+import "../styles/textEditor.css";
+import ReactQuill from "react-quill";
 
 const style = {
   color: "black",
 };
 
-var quill;
 const Note = ({ currentNote, setCurrentNote, activeId, setActiveId, notes, setNotes }) => {
   if (!activeId) return <h4 style={style}>No note is selected</h4>;
 
@@ -49,7 +49,7 @@ const Editor = ({ currentNote, setCurrentNote, activeId, setActiveId, notes, set
   if(accessToken === null)
       navigate('/signin');
   const [editable, setEditable] = useState(false);
-  // const [currentNote, setCurrentNote] = useState(currentNote);
+  const quillRef = useRef(null);
 
   var toolbarOptions = [
     ["bold", "italic", "underline", "strike"],
@@ -63,37 +63,13 @@ const Editor = ({ currentNote, setCurrentNote, activeId, setActiveId, notes, set
     ["clean"],
   ];
 
-  const wrapperRef = useCallback(
-    (wrapper) => {
-      if (!wrapper) return;
-      wrapper.innerHTML = "";
-      const editor = document.createElement("div");
-      wrapper.append(editor);
-      quill = new Quill(editor, {
-        theme: "snow",
-        modules: {
-          toolbar: toolbarOptions,
-        },
-      });
-      quill.setContents(currentNote.description);
-      if (!editable) quill.enable(false);
-      quill.on("text-change", () => {
-        setCurrentNote((thisNote) => {
-          return { ...thisNote, description: quill.getContents().ops };
-        });
-      });
-    },
-    [currentNote]
-  );
+  const modules = {
+    toolbar: editable?toolbarOptions: false
+  }
+
   const handleSave = () => {
     setEditable(false);
-    if (quill) {
-      quill.enable(false);
-
-      console.log("currentNote: ", currentNote);
-      console.log("Note: ", currentNote)
-      
-      axios
+    axios
       .put(`${BACKEND_BASE_URL}/notes/${currentNote._id}`, currentNote, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -109,18 +85,23 @@ const Editor = ({ currentNote, setCurrentNote, activeId, setActiveId, notes, set
           })
         );
       });
-
-    }
   };
   const handleEdit = () => {
     setEditable(true);
-    if (quill) quill.enable(true);
   };
 
   const handleShare = () => {
     // TODO implement share function
     setShowSharePopup(true);
     console.log("Implement Share function");
+  };
+
+  const handleDescriptionChange = (content) => {
+    if (editable){
+      setCurrentNote((prevNote)=>{
+        return {...prevNote, description: content}
+      });
+    }
   };
 
   return (
@@ -145,8 +126,12 @@ const Editor = ({ currentNote, setCurrentNote, activeId, setActiveId, notes, set
         setCurrentNote={setCurrentNote}
         handleShare={handleShare}
       />
-      <div
+      <ReactQuill
         className="container"
+        ref={quillRef}
+        value={currentNote.description}
+        readOnly={!editable}
+        onChange={handleDescriptionChange}
         style={{
           flexGrow: 1,
           display: "flex",
@@ -154,8 +139,7 @@ const Editor = ({ currentNote, setCurrentNote, activeId, setActiveId, notes, set
           color: "black",
           height: "100%",
         }}
-        ref={wrapperRef}
-      ></div>
+      />
     </div>
   );
 };
@@ -194,16 +178,15 @@ const EditorToolbar = ({
         <input
           style={{
             ...style,
-            height: "40px",
             fontSize: "1.5em",
-            marginBlockStart: "0.83em",
-            marginBlockEnd: "0.83em",
             fontWeight: "bold",
             textAlign: "start",
-            marginInlineStart: "0px",
-            marginInlineEnd: "0px",
             background: "white",
-            border: "1px solid green",
+            margin: "3px",
+            padding: "2px",
+            height: "auto",
+            display: "inline-block",
+            border: "white"
           }}
           autoFocus
           type="text"

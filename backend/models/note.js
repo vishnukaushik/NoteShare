@@ -1,10 +1,5 @@
 const mongoose = require("mongoose");
 
-const uniqueArrayValidator = (arr) => {
-  console.log("inside validore: ", arr);
-  return arr.length === new Set(arr).size;
-};
-
 const noteSchema = mongoose.Schema({
   userId: {
     type: mongoose.SchemaTypes.ObjectId,
@@ -16,8 +11,7 @@ const noteSchema = mongoose.Schema({
     required: true,
   },
   description: {
-    type: Array,
-    required: true,
+    type: String,
   },
   sharedWith: {
     type: [mongoose.SchemaTypes.ObjectId],

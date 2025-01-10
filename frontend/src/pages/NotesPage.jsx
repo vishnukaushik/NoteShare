@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_BASE_URL } from "../App";
-import { getAccessToken } from "../utils/tokenUtilities";
+import { getAccessToken, isTokenExpired } from "../utils/tokenUtilities";
 import '../styles/NotesPage.css'; // Import the CSS file
 
 const NotesPage = ({ setSignIn }) => {
@@ -19,7 +19,7 @@ const NotesPage = ({ setSignIn }) => {
     
 
   useEffect(() => {
-    if (accessToken === null)
+    if (isTokenExpired())
     {
       navigate("/signin");
     }
@@ -48,7 +48,7 @@ const NotesPage = ({ setSignIn }) => {
   const handleAdd = () => {
     const body =  {
       title: "New note",
-      description: [],
+      description: "",
     };
     const headers = {
       headers: {

@@ -34,6 +34,7 @@ router.get("/notes", (req, res) => {
 
 router.post("/notes/", (req, res) => {
   var note = req.body;
+  console.log("note: ", note)
   const user = req.user;
   const newNote = new Note({ ...note, userId: user._id });
 

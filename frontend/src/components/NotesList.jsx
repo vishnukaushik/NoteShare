@@ -10,7 +10,6 @@ const NotesList = ({
   handleNoteItemClickWrapper,
   handleAdd,
 }) => {
-  console.log("notes list: ", notes)
   return (
     <div
       style={{
