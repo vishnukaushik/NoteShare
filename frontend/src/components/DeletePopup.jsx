@@ -3,12 +3,19 @@ import { Delete as DeleteIcon } from "@mui/icons-material";
 import { useState } from "react";
 import axios from "axios";
 import { BACKEND_BASE_URL } from "../App";
+import { getAccessToken } from "../utils/tokenUtilities";
+import { useNavigate } from "react-router-dom";
 
 const DeletePopup = ({ notes, setNotes, currentNote, setActiveId }) => {
   const [showPopup, setShowPopup] = useState(false);
   const handleShowPopup = () => {
     setShowPopup(true);
   };
+  const navigate = useNavigate();
+  const accessToken = getAccessToken();
+  if(accessToken === null)
+      navigate('/signin')
+
   const handleDelete = () => {
     setNotes(notes.filter((note) => note._id !== currentNote._id));
     setActiveId(null);
@@ -16,7 +23,7 @@ const DeletePopup = ({ notes, setNotes, currentNote, setActiveId }) => {
     axios
       .delete(`${BACKEND_BASE_URL}/notes/${currentNote._id}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((result) => {

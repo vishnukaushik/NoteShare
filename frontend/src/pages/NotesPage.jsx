@@ -7,22 +7,27 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_BASE_URL } from "../App";
+import { getAccessToken } from "../utils/tokenUtilities";
 import '../styles/NotesPage.css'; // Import the CSS file
 
 const NotesPage = ({ setSignIn }) => {
-  const token = localStorage.getItem("token");
-  if (token === null) return <Unauthorized setSignIn={setSignIn} />;
-  
+  const accessToken = getAccessToken();
   const [notes, setNotes] = useState([]);
   const [activeId, setActiveId] = useState(null);
   const [currentNote, setCurrentNote] = useState(null);
   const navigate = useNavigate();
+    
 
   useEffect(() => {
+    if (accessToken === null)
+    {
+      navigate("/signin");
+    }
+
     axios
       .get(`${BACKEND_BASE_URL}/notes`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((data) => {
@@ -31,26 +36,34 @@ const NotesPage = ({ setSignIn }) => {
       .catch((err) => {
         navigate("/signin");
       });
-  }, [token, navigate]);
+  }, [accessToken]);
 
   const handleNoteItemClickWrapper = (index, note) => {
     return () => {
-      setActiveId(index);
+      setActiveId(note._id);
       setCurrentNote(note);
     };
   };
 
   const handleAdd = () => {
-    const newNote = {
-      _id: Date.now(),
-      userId: "temp_userId",
+    const body =  {
       title: "New note",
       description: [],
     };
-    setNotes((prevNotes) => {
-      const updatedNotes = [...prevNotes, newNote];
-      setCurrentNote(newNote); // Set current note to the newly added one
-      return updatedNotes;
+    const headers = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      }
+    };
+    axios.post(`${BACKEND_BASE_URL}/notes/`, body, headers).then(result=>{
+      const newNote = result.data;
+      console.log("new note: ", newNote)
+      setNotes((prevNotes) => {
+        const updatedNotes = [...prevNotes, newNote];
+        return updatedNotes;
+      })
+      setCurrentNote(newNote);
+      setActiveId(newNote._id);
     });
   };
 
@@ -79,7 +92,8 @@ const NotesPage = ({ setSignIn }) => {
           className="note-detail-container"
         >
           <Note
-            note={currentNote}
+            currentNote={currentNote}
+            setCurrentNote={setCurrentNote}
             activeId={activeId}
             setActiveId={setActiveId}
             notes={notes}

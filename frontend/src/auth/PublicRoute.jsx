@@ -1,9 +1,10 @@
 import { Navigate } from 'react-router-dom';
+import { isTokenExpired } from '../utils/tokenUtilities';
 
 const PublicRoute = ({ children }) => {
   const token = localStorage.getItem('token');
   
-  if (token) {
+  if (!isTokenExpired) {
     return <Navigate to="/notes" replace />;
   }
   

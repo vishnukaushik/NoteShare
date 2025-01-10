@@ -10,6 +10,7 @@ const NotesList = ({
   handleNoteItemClickWrapper,
   handleAdd,
 }) => {
+  console.log("notes list: ", notes)
   return (
     <div
       style={{
@@ -23,7 +24,7 @@ const NotesList = ({
             key={index}
             index={index}
             note={note}
-            activeId={activeId}
+            activeId={activeId === note._id?true:false}
             handleNoteItemClick={handleNoteItemClickWrapper(index + 1, note)}
           />
         );

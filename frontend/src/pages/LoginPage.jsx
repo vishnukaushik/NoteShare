@@ -7,6 +7,7 @@ import {BACKEND_BASE_URL} from '../App'
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import '../styles/LoginPage.css';
+import { setAccessToken } from '../utils/tokenUtilities';
 
 const LoginPage = ({signup = false}) => {
     const navigate = useNavigate()
@@ -55,10 +56,10 @@ const LoginPage = ({signup = false}) => {
     axios
         .post(ENDPOINT, { 'username':formData.email, 'password':formData.password })
         .then((result) => {
-        const token = result.data.token;
-        if(!token)
+        const accessToken = result.data.token;
+        if(!accessToken)
             throw new Error("Token is NULL")
-        localStorage.setItem("token", token);
+        setAccessToken(accessToken);
         navigate("/notes");
         console.log("signed in successfully")
         }).catch(error => {
@@ -92,12 +93,12 @@ const LoginPage = ({signup = false}) => {
         const response = await axios.post(BACKEND_BASE_URL + "/auth/google/callback", {
           'accessToken': tokenResponse.access_token,
         });
-        const token = response.data.token;
-        console.log("Google Login successful:", token);
+        const accessToken = response.data.token;
+        console.log("Google Login successful:", accessToken);
         
-        if(!token)
+        if(!accessToken)
             throw new Error("Sign in failed! Please try again")
-        localStorage.setItem("token", token);
+        setAccessToken(accessToken)
         navigate("/notes");
 
       } catch (error) {

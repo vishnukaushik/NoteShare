@@ -1,11 +1,12 @@
 const express = require('express');
-const authenticate = require('../middlewares/authenticate');
+const {authenticate, getUserId} = require('../middlewares/authenticate');
 const router = express.Router();
 const Note = require("../models/note");
 const User = require("../models/user");
 
 router.use(express.json());
 router.use(authenticate);
+router.use(getUserId);
 
 router.get("/notes", (req, res) => {
   const user = req.user;

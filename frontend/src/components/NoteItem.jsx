@@ -1,10 +1,10 @@
 import { Typography, ButtonBase } from "@mui/material";
 import "../styles/NoteItem.css"; // Import the CSS file
 
-const NoteItem = ({ note, index, activeId, handleNoteItemClick, shared }) => {
+const NoteItem = ({ note, index, isActive, handleNoteItemClick, shared }) => {
   return (
     <ButtonBase
-      className={index + 1 === activeId ? "note-item selected" : "note-item"}
+      className={isActive ? "note-item selected" : "note-item"}
       onClick={() => handleNoteItemClick(note, index)}
     >
       <div className="note-container">
