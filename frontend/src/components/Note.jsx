@@ -207,13 +207,18 @@ const EditorToolbar = ({
 						height: "auto",
 						display: "inline-block",
 						border: "white",
+						flexGrow: "1",
 					}}
 					autoFocus
 					type="text"
 					value={currentNote.title}
 					onChange={handleChange}
 				/>
-				<div>
+				<div
+					style={{
+						paddingLeft: "1rem",
+					}}
+				>
 					<IconButton
 						title="Save"
 						sx={{
