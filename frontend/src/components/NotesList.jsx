@@ -1,6 +1,7 @@
 import NoteItem from "./NoteItem";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import { IconButton } from "@mui/material";
+import { getAccessToken, isTokenExpired } from "../utils/tokenUtilities";
 import "../styles/NotesPage.css";
 
 const NotesList = ({
@@ -9,6 +10,10 @@ const NotesList = ({
 	handleNoteItemClickWrapper,
 	handleAdd,
 }) => {
+	if (isTokenExpired()) {
+		navigate("/signin");
+	}
+
 	return (
 		<div
 			style={{
