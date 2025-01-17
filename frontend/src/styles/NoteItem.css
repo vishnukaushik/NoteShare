@@ -1,127 +1,126 @@
 /* Overall styles for the note item */
 button.note-item {
-    display: flex;
-    flex-direction: column;
-    padding: 8px 50px; /* Reduced padding for more compact layout */
-    border-radius: 8px;
-    transition: background-color 0.3s ease, border 0.3s ease;
-    border: 1px solid transparent;
-    background-color: white;
-    cursor: pointer;
-    max-width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 8px; /* Adds space between items in the list */
-    width: 100%;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
-    height: auto; /* Allow dynamic height, but avoid it getting too large */
-    max-height: 40px; /* Limit the height of the item */
-    overflow: hidden; /* Hide any overflowing content */
-    color: #2563eb;
-  }
-  
-  /* Hover effect */
-  .note-item:hover {
-    background-color: #e0efff;
-  }
-  
-  /* Styling for the selected note item */
-  button.selected{
-    background-color: #4f81f2;
-    color: #ffffff;
-  }
-  
-  .note-item:hover {
-    background-color: #c1e1ff;
-    color: #004b6d;
-  }
-  
-  /* Title styling */
-  .note-item .note-title {
-    font-size: 1.0rem; /* Reduced font size for better compactness */
-    font-weight: bold;
-    text-align: left;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin-bottom: 4px;
-    line-height: 1.2; /* Tight line height for better vertical compression */
-  }
-  
-  /* Shared text styling */
-  .note-item .shared-text {
-    font-size: 0.75rem; /* Reduced font size */
-    color: #757575;
-    text-align: left;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  
-  /* Adding some padding to the container */
-  .note-item .note-container {
-    display: flex;
-    flex-direction: column;
-    gap: 2px; /* Reduced gap between elements */
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 1200px) {
-    .note-item {
-      padding: 8px 12px;
-      max-height: 70px; /* Reduce height on larger screens */
-    }
-  
-    .note-item .note-title {
-      font-size: 1.0rem;
-    }
-  
-    .note-item .shared-text {
-      font-size: 0.75rem;
-    }
-  }
-  
-  @media (max-width: 900px) {
-    .note-item {
-      padding: 6px 10px;
-      max-height: 60px; /* Further reduce height on medium screens */
-    }
-  
-    .note-item .note-title {
-      font-size: 0.95rem;
-    }
-  
-    .note-item .shared-text {
-      font-size: 0.7rem;
-    }
-  }
-  
-  @media (max-width: 600px) {
-    .note-item {
-      padding: 6px 10px;
-      max-height: 50px; /* Further reduce height on smaller screens */
-    }
-  
-    .note-item .note-title {
-      font-size: 0.9rem;
-    }
-  
-    .note-item .shared-text {
-      font-size: 0.65rem;
-    }
-  }
-  
-  @media (max-width: 400px) {
-    .note-item {
-      padding: 4px 8px;
-      max-height: 45px; /* Very compact on small screens */
-    }
-  
-    .note-item .note-title {
-      font-size: 0.85rem;
-    }
-  
-    .note-item .shared-text {
-      font-size: 0.6rem;
-    }
-  }
-  
+	display: flex;
+	flex-direction: column;
+	padding: 8px 50px; /* Reduced padding for more compact layout */
+	border-radius: 8px;
+	transition: background-color 0.3s ease, border 0.3s ease;
+	border: 1px solid transparent;
+	background-color: white;
+	cursor: pointer;
+	max-width: 100%;
+	box-sizing: border-box;
+	margin-bottom: 8px; /* Adds space between items in the list */
+	width: 100%;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+	height: auto; /* Allow dynamic height, but avoid it getting too large */
+	max-height: 40px; /* Limit the height of the item */
+	overflow: hidden; /* Hide any overflowing content */
+	color: #2563eb;
+}
+
+/* Hover effect */
+.note-item:hover {
+	background-color: #e0efff;
+}
+
+/* Styling for the selected note item */
+button.selected {
+	background-color: #4f81f2;
+	color: #ffffff;
+}
+
+.note-item:hover {
+	background-color: #c1e1ff;
+	color: #004b6d;
+}
+
+/* Title styling */
+.note-item .note-title {
+	font-size: 1rem; /* Reduced font size for better compactness */
+	font-weight: bold;
+	text-align: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin-bottom: 4px;
+	line-height: 1.2; /* Tight line height for better vertical compression */
+}
+
+/* Shared text styling */
+.note-item .shared-text {
+	font-size: 0.75rem; /* Reduced font size */
+	color: #757575;
+	text-align: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* Adding some padding to the container */
+.note-item .note-container {
+	display: flex;
+	flex-direction: column;
+	gap: 2px; /* Reduced gap between elements */
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+	.note-item {
+		padding: 8px 12px;
+		max-height: 70px; /* Reduce height on larger screens */
+	}
+
+	.note-item .note-title {
+		font-size: 1rem;
+	}
+
+	.note-item .shared-text {
+		font-size: 0.75rem;
+	}
+}
+
+@media (max-width: 900px) {
+	.note-item {
+		padding: 6px 10px;
+		max-height: 60px; /* Further reduce height on medium screens */
+	}
+
+	.note-item .note-title {
+		font-size: 0.95rem;
+	}
+
+	.note-item .shared-text {
+		font-size: 0.7rem;
+	}
+}
+
+@media (max-width: 600px) {
+	.note-item {
+		padding: 6px 10px;
+		max-height: 50px; /* Further reduce height on smaller screens */
+	}
+
+	.note-item .note-title {
+		font-size: 0.9rem;
+	}
+
+	.note-item .shared-text {
+		font-size: 0.65rem;
+	}
+}
+
+@media (max-width: 400px) {
+	.note-item {
+		padding: 4px 8px;
+		max-height: 45px; /* Very compact on small screens */
+	}
+
+	.note-item .note-title {
+		font-size: 0.85rem;
+	}
+
+	.note-item .shared-text {
+		font-size: 0.6rem;
+	}
+}

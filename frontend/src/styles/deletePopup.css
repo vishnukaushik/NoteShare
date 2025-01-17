@@ -1,14 +1,14 @@
-.button-container{
-    display: flex;
-    justify-content: center;
+.button-container {
+	display: flex;
+	justify-content: center;
 }
 
 .button-container .button-delete {
-    color: red;
-    margin: 5px;
+	color: red;
+	margin: 5px;
 }
 
-.button-container .button-delete:hover{
-    background: red;
-    color: white;
+.button-container .button-delete:hover {
+	background: red;
+	color: white;
 }

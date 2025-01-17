@@ -1,15 +1,15 @@
 #root {
-  display: flex;
-  width: 100vw;
-  min-height: inherit;
-  margin: 0;
-  text-align: center;
+	display: flex;
+	width: 100vw;
+	min-height: inherit;
+	margin: 0;
+	text-align: center;
 }
 
 .read-the-docs {
-  color: #888;
+	color: #888;
 }
 
 button.selectedNoteItem {
-  background-color: #dadee0;
+	background-color: #dadee0;
 }

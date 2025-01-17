@@ -1,9 +1,9 @@
 const style = {
-  color: "black",
+	color: "black",
 };
 
 const PageNotExists = () => {
-  console.log("inside page not exists");
-  return <h4 style={style}>Page doesn't exists</h4>;
+	console.log("inside page not exists");
+	return <h4 style={style}>Page doesn't exists</h4>;
 };
 export default PageNotExists;
