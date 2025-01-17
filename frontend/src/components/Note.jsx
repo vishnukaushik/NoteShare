@@ -261,6 +261,8 @@ const EditorToolbar = ({
 					textAlign: "start",
 					height: "auto",
 					display: "inline-block",
+					whiteSpace: "nowrap",
+					overflow: "auto",
 				}}
 			>
 				{currentNote.title}
