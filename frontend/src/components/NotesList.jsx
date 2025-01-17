@@ -28,19 +28,17 @@ const NotesList = ({
 				);
 			})}
 			<IconButton
+				title="Add note"
+				className="add-button-container"
 				sx={{
 					position: "absolute",
 					bottom: "20px",
 					right: "5px",
+					backgroundColor: "#2563eb",
 				}}
 				onClick={handleAdd}
 			>
-				<NoteAddIcon
-					sx={{
-						color: "#2563eb",
-						fontSize: 30,
-					}}
-				/>
+				<NoteAddIcon className="add-button" />
 			</IconButton>
 		</div>
 	);

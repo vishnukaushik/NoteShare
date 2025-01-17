@@ -64,7 +64,7 @@
 }
 
 /* Styling for the "Add Note" button */
-.add-button {
+.add-button-container {
 	background-color: #2563eb; /* Blue color for the button */
 	color: white;
 	padding: 12px 20px;
@@ -76,9 +76,19 @@
 	transition: background-color 0.3s ease;
 }
 
-.add-button:hover {
-	background-color: #004b6d; /* Darker shade of blue on hover */
+.add-button-container:hover {
+	background-color: #6187da !important; /* Darker shade of blue on hover */
 }
+
+.add-button {
+	color: white;
+	font-size: 1.6rem !important;
+}
+
+/* .add-button:hover {
+	color: #004b6d !important;
+	background-color: #c1e1ff;
+} */
 
 /* Responsive Design */
 

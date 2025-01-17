@@ -107,7 +107,7 @@ router.delete("/notes/:id", (req, res) => {
 
 router.post("/notes/share/:id", (req, res) => {
 	const noteId = req.params.id;
-	const shareToUsername = req.body.username;
+	const emailsList = req.body.emailsList;
 	User.findOne({ username: shareToUsername })
 		.then((data) => {
 			const shareToUserId = data._id.toString().trim();
