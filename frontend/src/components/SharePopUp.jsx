@@ -46,7 +46,11 @@ const SharePopup = () => {
 	};
 
 	const handleRemoveEmail = (index) => {
-		setEmailList((prevEmails) => prevEmails.splice(index));
+		setEmailList((prevEmails) => {
+			const newEmails = [...prevEmails];
+			newEmails.splice(index, 1);
+			return newEmails;
+		});
 	};
 
 	const handleKeyPress = (e) => {
