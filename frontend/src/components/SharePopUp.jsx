@@ -59,6 +59,7 @@ const SharePopUp = () => {
   }
   return (
     <IconButton
+      title="Share"
       sx={{
         marginRight: "10px",
       }}

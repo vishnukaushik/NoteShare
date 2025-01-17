@@ -104,6 +104,7 @@ const DeletePopup = ({ notes, setNotes, currentNote, setActiveId }) => {
   }
   return (
     <IconButton
+      title="Delete"
       sx={{
         marginRight: "10px",
       }}

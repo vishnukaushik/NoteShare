@@ -194,6 +194,7 @@ const EditorToolbar = ({
           onChange={handleChange}
         />
         <IconButton
+          title="Save"
           sx={{
             marginRight: "10px",
           }}
@@ -230,6 +231,7 @@ const EditorToolbar = ({
       </h2>
       <div>
         <IconButton
+          title="Edit"
           sx={{
             marginRight: "5px",
           }}
