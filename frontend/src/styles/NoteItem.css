@@ -2,7 +2,7 @@
 button.note-item {
 	display: flex;
 	flex-direction: column;
-	padding: 8px 50px; /* Reduced padding for more compact layout */
+	padding: 8px; /* Reduced padding for more compact layout */
 	border-radius: 8px;
 	transition: background-color 0.3s ease, border 0.3s ease;
 	border: 1px solid transparent;
@@ -17,11 +17,7 @@ button.note-item {
 	max-height: 40px; /* Limit the height of the item */
 	overflow: hidden; /* Hide any overflowing content */
 	color: #2563eb;
-}
-
-/* Hover effect */
-.note-item:hover {
-	background-color: #e0efff;
+	position: relative;
 }
 
 /* Styling for the selected note item */
@@ -36,7 +32,7 @@ button.selected {
 }
 
 /* Title styling */
-.note-item .note-title {
+.note-container .note-title {
 	font-size: 1rem; /* Reduced font size for better compactness */
 	font-weight: bold;
 	text-align: left;
@@ -59,9 +55,7 @@ button.selected {
 
 /* Adding some padding to the container */
 .note-item .note-container {
-	display: flex;
-	flex-direction: column;
-	gap: 2px; /* Reduced gap between elements */
+	width: 100%;
 }
 
 /* Responsive Design */
