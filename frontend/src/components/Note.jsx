@@ -270,6 +270,7 @@ const EditorToolbar = ({
 			<div
 				style={{
 					display: "flex",
+					paddingLeft: "1rem",
 				}}
 			>
 				<IconButton

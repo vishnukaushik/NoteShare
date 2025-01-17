@@ -65,7 +65,7 @@ const SharePopup = () => {
 				title="Share"
 				onClick={handleClickOpen}
 				sx={{
-					marginRight: "10px",
+					marginRight: "5px",
 				}}
 			>
 				<Share
