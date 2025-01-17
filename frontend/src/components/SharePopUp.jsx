@@ -62,11 +62,18 @@ const SharePopup = () => {
 	return (
 		<div className="relative">
 			<IconButton
+				title="Share"
 				onClick={handleClickOpen}
-				className="rounded-full hover:bg-gray-100"
-				size="large"
+				sx={{
+					marginRight: "10px",
+				}}
 			>
-				<Share className="text-gray-600" />
+				<Share
+					sx={{
+						color: "black",
+						fontSize: 30,
+					}}
+				/>
 			</IconButton>
 
 			<Dialog

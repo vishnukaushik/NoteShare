@@ -265,7 +265,11 @@ const EditorToolbar = ({
 			>
 				{currentNote.title}
 			</h2>
-			<div>
+			<div
+				style={{
+					display: "flex",
+				}}
+			>
 				<IconButton
 					title="Edit"
 					sx={{
