@@ -1,0 +1,79 @@
+/* Custom styles to override Material-UI defaults */
+.MuiDialog-paper {
+	border-radius: 12px !important;
+	box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+		0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
+}
+
+.MuiDialogTitle-root {
+	padding: 16px 24px !important;
+}
+
+.MuiDialogContent-root {
+	padding: 24px !important;
+}
+
+.MuiChip-root {
+	border-radius: 8px !important;
+}
+
+/* Custom scrollbar for email list */
+.MuiDialogContent-root {
+	scrollbar-width: thin;
+	scrollbar-color: #cbd5e1 transparent;
+}
+
+.MuiDialogContent-root::-webkit-scrollbar {
+	width: 6px;
+}
+
+.MuiDialogContent-root::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.MuiDialogContent-root::-webkit-scrollbar-thumb {
+	background-color: #cbd5e1;
+	border-radius: 3px;
+}
+
+.flex {
+	display: flex;
+}
+
+.justify-col {
+	flex-direction: column;
+	align-items: center;
+}
+
+.flex-wrap {
+	flex-wrap: wrap;
+	overflow-y: auto;
+	max-width: 20rem;
+	max-height: 10rem;
+}
+
+.justify-evenly {
+	justify-content: space-evenly;
+}
+
+.justify-around {
+	justify-content: space-around;
+}
+
+.justify-between {
+	justify-content: space-between;
+}
+
+.mt-8 {
+	margin: 2rem;
+}
+
+.flex .button-container {
+	width: 100% !important;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.item {
+	margin: 0.5rem !important;
+}
