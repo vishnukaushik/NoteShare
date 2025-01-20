@@ -3,6 +3,7 @@ const { authenticate, getUserId } = require("../middlewares/authenticate");
 const router = express.Router();
 const Note = require("../models/note");
 const User = require("../models/user");
+const sharedNote = require("../models/sharedNote");
 
 router.use(express.json());
 router.use(authenticate);
@@ -108,30 +109,45 @@ router.delete("/notes/:id", (req, res) => {
 router.post("/notes/share/:id", (req, res) => {
 	const noteId = req.params.id;
 	const emailsList = req.body.emailsList;
-	User.findOne({ username: shareToUsername })
-		.then((data) => {
-			const shareToUserId = data._id.toString().trim();
-			Note.findOneAndUpdate(
-				{ _id: noteId },
-				{
-					$addToSet: { sharedWith: shareToUserId },
-				},
-				{
-					new: true,
-				}
-			)
-				.then((res) => {
-					console.log("this is the updated note: ", res);
-				})
-				.catch((err) => {
-					console.error("Unable to find note: ", err);
+
+	console.log("user object from middleware: ", req.user);
+	const currUser = req.user;
+
+	var failedEmails = [];
+	var successEmails = [];
+
+	emailsList.forEach((email) => {
+		User.findOne({ username: email })
+			.then((data) => {
+				const shareUserId = data._id.toString().trim();
+				const newSharedNote = new sharedNote({
+					userId: shareUserId,
+					noteId,
+					accessLevel,
+					sharedBy: currUser._id,
 				});
-		})
-		.catch((err) => {
-			console.error("err: ", err);
-		});
-	console.log("notes share: ", noteId, shareToUsername, req.user);
-	res.send("req completed");
+
+				newSharedNote
+					.save()
+					.then((result) => {
+						successEmails.push(email);
+					})
+					.catch((err) => {
+						failedEmails.push(email);
+					});
+			})
+			.catch((err) => {
+				failedEmails.push(email);
+			});
+	});
+	console.log("notes share: ", noteId);
+	console.log("success Emails: ", successEmails);
+	console.log("failed Emails: ", failedEmails);
+
+	res.json({
+		successEmails,
+		failedEmails,
+	});
 });
 
 module.exports = router;
