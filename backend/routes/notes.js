@@ -111,6 +111,8 @@ router.post("/notes/share/:id", async (req, res) => {
 	const emailsList = req.body.emailsList;
 	const currUser = req.user;
 
+	const accessLevel = "view";
+
 	const successMessage = "Success";
 	const failMessage = "Failed";
 	var failedEmails = [];
