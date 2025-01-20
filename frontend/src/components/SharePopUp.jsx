@@ -53,7 +53,7 @@ const SharePopup = ({ currentNote }) => {
 			emailsList: emailList,
 		};
 		axios
-			.put(`${BACKEND_BASE_URL}/notes/share/${currentNote._id}`, payload, {
+			.post(`${BACKEND_BASE_URL}/notes/share/${currentNote._id}`, payload, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},

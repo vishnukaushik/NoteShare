@@ -106,19 +106,22 @@ router.delete("/notes/:id", (req, res) => {
 		});
 });
 
-router.post("/notes/share/:id", (req, res) => {
+router.post("/notes/share/:id", async (req, res) => {
 	const noteId = req.params.id;
 	const emailsList = req.body.emailsList;
-
-	console.log("user object from middleware: ", req.user);
 	const currUser = req.user;
 
+	const successMessage = "Success";
+	const failMessage = "Failed";
 	var failedEmails = [];
 	var successEmails = [];
 
-	emailsList.forEach((email) => {
-		User.findOne({ username: email })
-			.then((data) => {
+	const promises = emailsList.map(async (email) => {
+		console.log("Checking for email: ", email);
+		try {
+			const data = await User.findOne({ username: email }).exec();
+			console.log("DB data: ", data);
+			if (data) {
 				const shareUserId = data._id.toString().trim();
 				const newSharedNote = new sharedNote({
 					userId: shareUserId,
@@ -127,19 +130,18 @@ router.post("/notes/share/:id", (req, res) => {
 					sharedBy: currUser._id,
 				});
 
-				newSharedNote
-					.save()
-					.then((result) => {
-						successEmails.push(email);
-					})
-					.catch((err) => {
-						failedEmails.push(email);
-					});
-			})
-			.catch((err) => {
-				failedEmails.push(email);
-			});
+				await newSharedNote.save();
+				successEmails.push({ email, message: successMessage });
+			} else {
+				failedEmails.push({ email, message: failMessage + " User not found" });
+			}
+		} catch (err) {
+			failedEmails.push({ email, message: failMessage + err });
+		}
 	});
+
+	await Promise.all(promises);
+
 	console.log("notes share: ", noteId);
 	console.log("success Emails: ", successEmails);
 	console.log("failed Emails: ", failedEmails);
