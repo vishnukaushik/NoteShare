@@ -9,6 +9,7 @@ const sharedNoteSchema = mongoose.Schema({
 	noteId: {
 		type: mongoose.SchemaTypes.ObjectId,
 		required: true,
+		ref: "note",
 	},
 	accessLevel: {
 		type: String,

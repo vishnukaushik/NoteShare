@@ -9,28 +9,36 @@ router.use(express.json());
 router.use(authenticate);
 router.use(getUserId);
 
-router.get("/notes", (req, res) => {
+router.get("/notes", async (req, res) => {
 	const user = req.user;
 	console.log(user);
-	Note.find({
-		$or: [
-			{ userId: user._id },
-			{
-				sharedWith: {
-					$in: [user._id],
-				},
-			},
-		],
-	})
-		.then((notes) => {
-			console.log("found notes for this user");
-			console.log(notes);
-			res.json(notes);
-		})
-		.catch((err) => {
-			console.error(err);
-			res.status(404).send({ err: err });
-		});
+
+	finalResponse = [];
+
+	const notesPromise = Note.find({ userId: user._id }).exec();
+
+	const sharedNotesPromise = sharedNote
+		.find({ userId: user._id })
+		.populate("noteId")
+		.exec();
+
+	const [userNotes, sharedNotes] = await Promise.all([
+		notesPromise,
+		sharedNotesPromise,
+	]);
+
+	const sharedNotesList = sharedNotes.map((sharedNote) => {
+		const note = sharedNote.noteId._doc;
+		console.log("sharedNote: ", note);
+
+		return { ...note, shared: true };
+	});
+
+	finalResponse = [...userNotes, ...sharedNotesList];
+
+	console.log("notes: ", finalResponse);
+
+	res.status(201).send(finalResponse);
 });
 
 router.post("/notes/", (req, res) => {
