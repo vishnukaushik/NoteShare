@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
 	Button,
 	Dialog,
@@ -12,14 +13,21 @@ import {
 } from "@mui/material";
 import { Share, Close } from "@mui/icons-material";
 import "../styles/SharePopup.css";
+import axios from "axios";
+import { BACKEND_BASE_URL } from "../App";
+import { getAccessToken } from "../utils/tokenUtilities";
 
-const SharePopup = () => {
+const SharePopup = ({ currentNote }) => {
 	const [open, setOpen] = useState(false);
 	const [email, setEmail] = useState("");
 	const [emailList, setEmailList] = useState([]);
 
 	const containerRef = useRef(null); // Reference to the container
 	const lastItemRef = useRef(null); // Reference to the last item
+
+	const navigate = useNavigate();
+	const token = getAccessToken();
+	if (token === null) navigate("/signin");
 
 	// Scroll to the last item when the items array changes
 	useEffect(() => {
@@ -36,6 +44,27 @@ const SharePopup = () => {
 		setOpen(false);
 		setEmail("");
 		setEmailList([]);
+	};
+
+	const handleShare = () => {
+		const accessLevel = "view";
+		const payload = {
+			accessLevel,
+			emailsList: emailList,
+		};
+		axios
+			.put(`${BACKEND_BASE_URL}/notes/share/${currentNote._id}`, payload, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((result) => {
+				console.log("successful emails: ", result.data.successEmails);
+				console.log("failed emails: ", result.data.failedEmails);
+			})
+			.catch((err) => {
+				console.log("Error occured: ", err);
+			});
 	};
 
 	const handleAddEmail = () => {
@@ -151,7 +180,11 @@ const SharePopup = () => {
 					>
 						Cancel
 					</Button>
-					<Button variant="contained" className="bg-blue-500 hover:bg-blue-600">
+					<Button
+						variant="contained"
+						className="bg-blue-500 hover:bg-blue-600"
+						onClick={handleShare}
+					>
 						Share
 					</Button>
 				</Box>

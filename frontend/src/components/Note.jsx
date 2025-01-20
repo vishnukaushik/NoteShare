@@ -298,7 +298,7 @@ const EditorToolbar = ({
 					currentNote={currentNote}
 					setActiveId={setActiveId}
 				/>
-				<SharePopUp />
+				<SharePopUp currentNote={currentNote} />
 			</div>
 		</div>
 	);
