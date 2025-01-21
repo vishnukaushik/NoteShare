@@ -162,4 +162,26 @@ router.post("/notes/share/:id", async (req, res) => {
 	});
 });
 
+router.delete("/sharedNotes/:id", (req, res) => {
+	const id = req.params.id;
+	console.log("user: ", req.user);
+	sharedNote
+		.deleteOne({
+			noteId: id,
+			userId: req.user._id,
+		})
+		.then((result) => {
+			console.log("result: ", result);
+			if (result.acknowledged && result.deletedCount > 0) {
+				console.log("deleted: ", result);
+				res.status(200).send({ message: "deleted the note" });
+			} else {
+				res.status(404).send({ err: "Unable to delete note" });
+			}
+		})
+		.catch((err) => {
+			res.status(404).send({ err, message: "Unable to find note" });
+		});
+});
+
 module.exports = router;

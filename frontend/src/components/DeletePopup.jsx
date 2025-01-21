@@ -16,12 +16,17 @@ const DeletePopup = ({ notes, setNotes, currentNote, setActiveId }) => {
 	const accessToken = getAccessToken();
 	if (accessToken === null) navigate("/signin");
 
+	const isSharedNote = currentNote.shared;
+	const DELETE_URL = isSharedNote
+		? `${BACKEND_BASE_URL}/sharedNotes/${currentNote._id}`
+		: `${BACKEND_BASE_URL}/notes/${currentNote._id}`;
+
 	const handleDelete = () => {
 		setNotes(notes.filter((note) => note._id !== currentNote._id));
 		setActiveId(null);
 
 		axios
-			.delete(`${BACKEND_BASE_URL}/notes/${currentNote._id}`, {
+			.delete(DELETE_URL, {
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
 				},
