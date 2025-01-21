@@ -17,6 +17,7 @@ import axios from "axios";
 import { BACKEND_BASE_URL } from "../App";
 import { getAccessToken } from "../utils/tokenUtilities";
 import ShowToast from "./ShowToast";
+import PermissionSelector from "./PermissionsDropdown";
 
 const SharePopup = ({ currentNote }) => {
 	const [open, setOpen] = useState(false);
@@ -24,6 +25,7 @@ const SharePopup = ({ currentNote }) => {
 	const [emailList, setEmailList] = useState([]);
 	const [showToast, setShowToast] = useState(false);
 	const [toastContent, setToastContent] = useState({});
+	const [accessLevel, setAccessLevel] = useState("view");
 
 	const containerRef = useRef(null); // Reference to the container
 	const lastItemRef = useRef(null); // Reference to the last item
@@ -125,7 +127,7 @@ const SharePopup = ({ currentNote }) => {
 
 				<DialogContent className="p-6">
 					<div className="flex gap-8 justify-evenly">
-						<div className="flex-1">
+						<div className="flex-1 left-part">
 							<div className="flex justify-col gap-2">
 								<TextField
 									autoFocus
@@ -148,6 +150,12 @@ const SharePopup = ({ currentNote }) => {
 										Add
 									</Button>
 								</div>
+							</div>
+							<div className="flex justify-col gap-2">
+								<PermissionSelector
+									accessLevel={accessLevel}
+									setAccessLevel={setAccessLevel}
+								/>
 							</div>
 						</div>
 

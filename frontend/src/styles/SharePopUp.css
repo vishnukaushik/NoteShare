@@ -75,5 +75,13 @@
 }
 
 .item {
-	margin: 0.5rem !important;
+	margin: 0.2rem !important;
+}
+
+.left-part {
+	width: 40%;
+	display: flex;
+	flex-direction: column;
+	/* align-items: center; */
+	justify-content: space-between;
 }
