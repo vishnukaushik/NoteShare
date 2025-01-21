@@ -1,12 +1,14 @@
 {
-  "scripts": {
-    "install:backend": "npm --prefix ./backend install",
-    "install:frontend": "npm --prefix ./frontend install",
-    "install": "npm run install:backend & npm run install:frontend",
-    "dev:backend": "npm run dev --prefix backend",
-    "dev:frontend": "npm run dev --prefix frontend",
-    "dev": "npm run dev:backend & npm run dev:frontend",
-    "build:frontend": "npm --prefix frontend run build",
-    "start:backend": "npm --prefix backend start"
-  }
+	"scripts": {
+		"install:backend": "npm --prefix ./backend install",
+		"install:frontend": "npm --prefix ./frontend install",
+		"install": "npm run install:backend & npm run install:frontend",
+		"dev:backend": "npm run dev --prefix backend",
+		"dev:frontend": "npm run dev --prefix frontend",
+		"dev": "npm run dev:backend & npm run dev:frontend",
+		"build:frontend": "npm --prefix frontend run build",
+		"start:backend": "npm --prefix backend start",
+		"start:frontend": "npm --prefix frontend preview",
+		"start": "npm run start:backend & npm run start:frontend"
+	}
 }
