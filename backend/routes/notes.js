@@ -122,7 +122,7 @@ router.post("/notes/share/:id", async (req, res) => {
 	const emailsList = req.body.emailsList;
 	const currUser = req.user;
 
-	const accessLevel = "view";
+	const accessLevel = req.body.accessLevel;
 
 	const successMessage = "Success";
 	const failMessage = "Failed";
@@ -198,20 +198,24 @@ router.delete("/sharedNotes/:id", (req, res) => {
 
 router.put("/sharedNotes/:id", (req, res) => {
 	const id = req.params.id;
-	const updatedNote = req.body;
+	const updatedNote = {
+		title: req.body.title,
+		description: req.body.description,
+	};
 	console.log("in put request for sharedNote: ", id, updatedNote);
 	sharedNote
-		.findOneAndUpdate(
-			{ noteId: id, userId: req.user._id, accessLevel: "edit" },
-			updatedNote,
-			{
-				new: true,
-			}
-		)
-		.then((note) => {
+		.findOne({ noteId: id, userId: req.user._id, accessLevel: "edit" })
+		.then((result) => {
 			console.log("request successful");
-			if (!note) res.status(403).json({ message: "Permission denied!" });
-			else res.status(200).json(note);
+			if (!result) res.status(403).json({ message: "Permission denied!" });
+			console.log("result: ", result);
+			Note.findByIdAndUpdate({ _id: result.noteId }, updatedNote, {
+				new: true,
+			}).then((newUpdatedNote) => {
+				console.log("newUPdatedNote; ", newUpdatedNote);
+				if (newUpdatedNote) res.status(201).json(newUpdatedNote);
+				else res.status(403).json({ message: "Unable to find the note!" });
+			});
 		})
 		.catch((err) => {
 			console.error(err);
