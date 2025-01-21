@@ -152,7 +152,13 @@ router.post("/notes/share/:id", async (req, res) => {
 				});
 			}
 		} catch (err) {
-			failedEmails.push({ email, message: failMessage + " - " + err });
+			console.log("err: ", err.message);
+			if (err.code === 11000)
+				failedEmails.push({
+					email,
+					message: failMessage + " - Already shared with the user",
+				});
+			else failedEmails.push({ email, message: failMessage + " - " + err });
 		}
 	});
 
