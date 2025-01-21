@@ -52,7 +52,6 @@ const SharePopup = ({ currentNote }) => {
 	};
 
 	const handleShare = () => {
-		const accessLevel = "view";
 		const payload = {
 			accessLevel,
 			emailsList: emailList,
