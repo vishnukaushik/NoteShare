@@ -196,4 +196,27 @@ router.delete("/sharedNotes/:id", (req, res) => {
 		});
 });
 
+router.put("/sharedNotes/:id", (req, res) => {
+	const id = req.params.id;
+	const updatedNote = req.body;
+	console.log("in put request for sharedNote: ", id, updatedNote);
+	sharedNote
+		.findOneAndUpdate(
+			{ noteId: id, userId: req.user._id, accessLevel: "edit" },
+			updatedNote,
+			{
+				new: true,
+			}
+		)
+		.then((note) => {
+			console.log("request successful");
+			if (!note) res.status(403).json({ message: "Permission denied!" });
+			else res.status(200).json(note);
+		})
+		.catch((err) => {
+			console.error(err);
+			res.status(403).send({ error: "Note not found!" });
+		});
+});
+
 module.exports = router;

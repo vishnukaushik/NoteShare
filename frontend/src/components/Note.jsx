@@ -81,10 +81,14 @@ const Editor = ({
 		toolbar: editable ? toolbarOptions : false,
 	};
 
+	const SAVENOTE_URL = currentNote.shared
+		? `${BACKEND_BASE_URL}/sharedNotes/${currentNote._id}`
+		: `${BACKEND_BASE_URL}/notes/${currentNote._id}`;
+
 	const handleSave = () => {
 		setEditable(false);
 		axios
-			.put(`${BACKEND_BASE_URL}/notes/${currentNote._id}`, currentNote, {
+			.put(SAVENOTE_URL, currentNote, {
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
 				},
