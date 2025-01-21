@@ -6,7 +6,7 @@ import axios from "axios";
 import { BACKEND_BASE_URL } from "../App";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
-import "../styles/LoginPage.css";
+import "../styles/loginPage.css";
 import { setAccessToken } from "../utils/tokenUtilities";
 
 const LoginPage = ({ signup = false }) => {

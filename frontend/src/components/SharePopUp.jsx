@@ -12,7 +12,7 @@ import {
 	Divider,
 } from "@mui/material";
 import { Share, Close } from "@mui/icons-material";
-import "../styles/SharePopup.css";
+import "../styles/SharePopUp.css";
 import axios from "axios";
 import { BACKEND_BASE_URL } from "../App";
 import { getAccessToken } from "../utils/tokenUtilities";
