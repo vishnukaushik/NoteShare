@@ -96,22 +96,25 @@ router.put("/notes/:id", (req, res) => {
 router.delete("/notes/:id", (req, res) => {
 	const id = req.params.id;
 	console.log("user: ", req.user);
-	Note.deleteOne({
-		_id: id,
-		userId: req.user._id,
-	})
-		.then((result) => {
-			console.log("result: ", result);
-			if (result.acknowledged && result.deletedCount > 0) {
-				console.log("deleted: ", result);
-				res.status(200).send({ message: "deleted the note" });
-			} else {
-				res.status(404).send({ err: "Unable to delete note" });
-			}
+
+	sharedNote.deleteMany({ noteId: id }).then((sharedResult) => {
+		Note.deleteOne({
+			_id: id,
+			userId: req.user._id,
 		})
-		.catch((err) => {
-			res.status(404).send({ err, message: "Unable to find note" });
-		});
+			.then((result) => {
+				console.log("result: ", result);
+				if (result.acknowledged && result.deletedCount > 0) {
+					console.log("deleted: ", result);
+					res.status(200).send({ message: "deleted the note" });
+				} else {
+					res.status(404).send({ err: "Unable to delete note" });
+				}
+			})
+			.catch((err) => {
+				res.status(404).send({ err, message: "Unable to find note" });
+			});
+	});
 });
 
 router.post("/notes/share/:id", async (req, res) => {
