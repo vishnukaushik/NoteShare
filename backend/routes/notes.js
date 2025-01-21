@@ -146,10 +146,13 @@ router.post("/notes/share/:id", async (req, res) => {
 				await newSharedNote.save();
 				successEmails.push({ email, message: successMessage });
 			} else {
-				failedEmails.push({ email, message: failMessage + " User not found" });
+				failedEmails.push({
+					email,
+					message: failMessage + " - User not found",
+				});
 			}
 		} catch (err) {
-			failedEmails.push({ email, message: failMessage + err });
+			failedEmails.push({ email, message: failMessage + " - " + err });
 		}
 	});
 
