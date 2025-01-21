@@ -98,7 +98,12 @@ const Editor = ({
 				console.log("saved request successful: ", savedNote);
 				setNotes(
 					notes.map((note) => {
-						if (note._id === savedNote._id) return savedNote;
+						if (note._id === savedNote._id)
+							return {
+								...note,
+								title: savedNote.title,
+								description: savedNote.description,
+							};
 						return note;
 					})
 				);
