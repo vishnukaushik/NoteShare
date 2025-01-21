@@ -16,11 +16,14 @@ import "../styles/SharePopup.css";
 import axios from "axios";
 import { BACKEND_BASE_URL } from "../App";
 import { getAccessToken } from "../utils/tokenUtilities";
+import ShowToast from "./ShowToast";
 
 const SharePopup = ({ currentNote }) => {
 	const [open, setOpen] = useState(false);
 	const [email, setEmail] = useState("");
 	const [emailList, setEmailList] = useState([]);
+	const [showToast, setShowToast] = useState(false);
+	const [toastContent, setToastContent] = useState({});
 
 	const containerRef = useRef(null); // Reference to the container
 	const lastItemRef = useRef(null); // Reference to the last item
@@ -59,8 +62,11 @@ const SharePopup = ({ currentNote }) => {
 				},
 			})
 			.then((result) => {
+				setOpen(false);
+				setShowToast(true);
 				console.log("successful emails: ", result.data.successEmails);
 				console.log("failed emails: ", result.data.failedEmails);
+				setToastContent(result.data);
 			})
 			.catch((err) => {
 				console.log("Error occured: ", err);
@@ -189,6 +195,12 @@ const SharePopup = ({ currentNote }) => {
 					</Button>
 				</Box>
 			</Dialog>
+
+			<ShowToast
+				open={showToast}
+				setOpen={setShowToast}
+				toastContent={toastContent}
+			/>
 		</div>
 	);
 };
