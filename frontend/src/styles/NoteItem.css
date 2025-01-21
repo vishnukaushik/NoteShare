@@ -31,6 +31,15 @@ button.selected {
 	color: #004b6d;
 }
 
+/* Adding some padding to the container */
+.note-item .note-container {
+	width: 100%;
+	position: relative;
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
 /* Title styling */
 .note-container .note-title {
 	font-size: 1rem; /* Reduced font size for better compactness */
@@ -39,23 +48,19 @@ button.selected {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	margin-bottom: 4px;
+	flex: 1;
 	line-height: 1.2; /* Tight line height for better vertical compression */
+	padding: 0.5rem 0rem;
 }
 
 /* Shared text styling */
 .note-item .shared-text {
 	font-size: 0.75rem; /* Reduced font size */
 	color: #757575;
-	text-align: left;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
-
-/* Adding some padding to the container */
-.note-item .note-container {
-	width: 100%;
+	align-self: self-end;
 }
 
 /* Responsive Design */

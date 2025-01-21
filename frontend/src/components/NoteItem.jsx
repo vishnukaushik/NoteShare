@@ -1,7 +1,10 @@
 import { Typography, ButtonBase } from "@mui/material";
 import "../styles/NoteItem.css"; // Import the CSS file
 
-const NoteItem = ({ note, index, isActive, handleNoteItemClick, shared }) => {
+const NoteItem = ({ note, index, isActive, handleNoteItemClick }) => {
+	const shared = note.shared ? "visible" : "hidden";
+	console.log("note: ", note);
+	console.log("shared: ", shared);
 	return (
 		<ButtonBase
 			className={isActive ? "note-item selected" : "note-item"}
@@ -9,7 +12,9 @@ const NoteItem = ({ note, index, isActive, handleNoteItemClick, shared }) => {
 		>
 			<div className="note-container">
 				<Typography className="note-title">{note.title}</Typography>
-				{shared && <Typography className="shared-text">shared</Typography>}
+				<Typography className="shared-text" visibility={shared}>
+					shared
+				</Typography>
 			</div>
 		</ButtonBase>
 	);
