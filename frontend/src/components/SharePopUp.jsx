@@ -71,6 +71,7 @@ const SharePopup = ({ currentNote }) => {
 			.catch((err) => {
 				console.log("Error occured: ", err);
 			});
+		setEmailList([]);
 	};
 
 	const handleAddEmail = () => {
