@@ -29,9 +29,9 @@ router.get("/notes", async (req, res) => {
 
 	const sharedNotesList = sharedNotes.map((sharedNote) => {
 		const note = sharedNote.noteId._doc;
-		console.log("sharedNote: ", note);
+		console.log("sharedNote: ", sharedNote);
 
-		return { ...note, shared: true };
+		return { ...note, shared: true, accessLevel: sharedNote.accessLevel };
 	});
 
 	finalResponse = [...userNotes, ...sharedNotesList];
